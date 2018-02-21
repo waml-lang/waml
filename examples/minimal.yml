@@ -1,0 +1,10 @@
+waml: 0.1.0 # WAML version
+
+steps: # A sequence of user interactions
+  - visit: https://google.com # Navigating to a URL
+  - fill: # Focus to an element and type things in
+      selector: input#search
+      value: Ugandan knuckles
+  - click: a#search # Click an HTML element
+  - wait # Wait for a page load to finish
+  - screenshot # Take screenshot of the page

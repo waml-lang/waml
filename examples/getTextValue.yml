@@ -1,0 +1,11 @@
+waml: 0.1.0
+
+info: # https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/get_text_value.js
+  description: Scrapes the navbar title from the Hacker News frontpage
+
+steps:
+  - visit: https://news.ycombinator.com/news
+  - scrape:
+      selector: .hname > a
+      attr: innerText
+      as: myTitleValue

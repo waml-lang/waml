@@ -1,0 +1,48 @@
+waml: 0.1.0 # WAML version
+
+info: # Metadata about the WAML document
+  name: An example WAML document.
+  description: High-level summary of the user flow.
+
+variables: # A mapping of variables to be defined in the flow context
+  someValue: Hello world
+  isMobile: true
+
+context: # Browser emulation settings (optional)
+  viewport: # Browser window dimensions
+    width: 800
+    height: 600
+  headers: # Additional HTTP headers to be sent with every request
+    X-API-Key: 123
+    Authorization: Bearer abc
+  cookies: # Browser cookies
+    - cookieName: cookieValue
+  mediaType: screen # screen / print / none
+  userAgent: myUserAgent # Browser user agent
+  device: 'iPhone4' # List from https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
+  timeout: 5 # Maximum navigation time
+
+steps: # A sequence of user interactions
+  - visit: https://google.com # Navigating to a URL
+  - click: a.link # Click an HTML element
+  - hover: a#about # Hovering the mouse over an HTML element
+  - focus: input#search # Focusing on an HTML element
+  - select: # Focusing and selecting one or more values from a dropdown
+      selector: select#colors
+      value: 'blue'
+  - fill: # Focus to an element and type things in
+      selector: input#search
+      value: Ugandan knuckles
+  - type: ${someValue} # Types words, also: references custom.someValue
+  - press: Shift # Type a special key, like Shift
+  - wait: div#results # Selector of an element to wait for
+  - wait: 3000 # Time to wait
+  - wait # Wait for a page load to finish
+  - refresh # Reload the current page
+  - back # Go backwards in the browser history
+  - forward # Go forwards in the browser history
+  - scrape: # Scrape data from the HTML document
+      selector: input#search # can be single or multiple
+      attr: value # Element attribute to scrape el.value / el.href / el.outerHTML (Optional, defaults to element outerHTML)
+      as: abc # Key to write to in ephemeral data store
+  - screenshot: test.png # Take screenshot of the page

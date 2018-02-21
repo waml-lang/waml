@@ -1,0 +1,11 @@
+waml: 0.1.0
+
+info: # https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/get_list_of_links.js
+  description: Scrapes the navbar title from the Hacker News frontpage
+
+steps:
+  - visit: https://news.ycombinator.com/news
+  - scrape
+      selector: a.storylink
+      attr: textContent
+      saveAs: hackerNewsTitles

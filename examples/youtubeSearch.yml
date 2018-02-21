@@ -1,0 +1,22 @@
+waml: 0.1.0
+
+info: # https://github.com/checkly/puppeteer-examples/blob/master/2.%20search/youtube.js
+  description: Looks for Fleetwood Mac's "Dreams" video on youtube.com and clicks on the third video. Waits for 5 seconds for the video to load.
+
+steps:
+  - visit: https://youtube.com
+  - fill:
+      selector: '#search'
+      value: innerText
+  - click: button#search-icon-legacy
+  - wait:
+      selector: 'ytd-thumbnail.ytd-video-renderer'
+  - screenshot
+  - click: # Expanded version of click
+      selector: 'ytd-thumbnail.ytd-video-renderer'
+      index: 2 # click 3rd video from the list
+  - wait:
+      selector: '.html5-video-container'
+  - wait:
+      timeout: 5000
+  - screenshot
