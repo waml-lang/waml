@@ -28,6 +28,22 @@ WAML documents are represented in either YAML or JSON formats. These documents m
 
 > The WAML schema is based on [JSON Schema](http://json-schema.org/) defined [here]().
 
+## Use Cases
+
+The WAML specification can be used to define flows for:
+
+* Web scraping / data extraction
+  * Track changes on a web page (price drops, new releases)
+  * Turning websites into APIs
+  * Content aggregation
+  * Online review monitoring
+  * Lead generation
+* Web automation
+  * Integration end-to-end testing
+  * Uptime monitoring
+  * Evaluating web best practices
+  
+
 # WAML Specification
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -244,11 +260,15 @@ steps: # A sequence of user interactions
 
 Steps can have a compact version which omits default and optional parameters, and an expanded version with additional parameters & features. For example, the `click` step normally just needs a CSS `selector`:
 
+> Compact version
+
 ```yaml
 - click: a.link # Click an HTML element
 ```
 
 We can also use the expanded version of `click` to specify a target from a list of elements:
+
+> Expanded version
 
 ```yaml
 - click: # Expanded version of click
@@ -277,6 +297,8 @@ Step Name | Description
 [scrape](#scrape)  | Scrape the HTML document for specified elements and/or attributes.
 [screenshot](#screenshot)  | Take a screenshot of the page.
 
+> Properties marked with a `*` suffix is **required**.
+
 ### Visit
 
 The `visit` step navigates to a specified URL.
@@ -289,7 +311,7 @@ The `visit` step navigates to a specified URL.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`url`    | The URL to navigate. Must be prefixed with `http://` or `https://` protocols. | `string` | `undefined`
+`url`*    | The URL to navigate. Must be prefixed with `http://` or `https://` protocols. | `string` | `undefined`
 
 ### Click
 
@@ -310,7 +332,7 @@ If there are multiple elements satisfying the selector, the first will be clicke
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
 `index`    | Index of element, if there are multiple matching elements. | `integer` | `undefined`
 
 ### Hover
@@ -326,7 +348,7 @@ If there are multiple elements satisfying the selector, the first will be hovere
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
 
 ### Focus
 
@@ -341,7 +363,7 @@ If there are multiple elements satisfying the selector, the first will be focuse
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
 
 ### Select
 
@@ -368,8 +390,8 @@ If the `<select>` has the `multiple` attribute, all values are considered, other
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
-`value`    | One or more values. | `array` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+`value`*    | One or more values. | `array` | `undefined`
 
 ### Fill
 
@@ -385,8 +407,8 @@ The `fill` step types a string of text into a focused HTML element.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
-`value`    | String of text to type in. | `string` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+`value`*    | String of text to type in. | `string` | `undefined`
 
 ### Type
 
@@ -400,7 +422,7 @@ The `types` step types a string of text.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`value`    | String of text to type in. | `string` | `undefined`
+`value`*    | String of text to type in. | `string` | `undefined`
 
 ### Press
 
@@ -414,7 +436,7 @@ The `press` step types special characters.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`key`    | Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout](https://github.com/GoogleChrome/puppeteer/blob/v1.0.0/lib/USKeyboardLayout.js) for a list of all key names. | `string` | `undefined`
+`key`*    | Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout](https://github.com/GoogleChrome/puppeteer/blob/v1.0.0/lib/USKeyboardLayout.js) for a list of all key names. | `string` | `undefined`
 
 ### Wait
 
@@ -472,7 +494,7 @@ The `scrape` step lets extract and evaluate attributes and HTML elements of the 
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`    | The CSS selector of an HTML element. | `string` | `undefined`
+`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
 `attr`    | Element attribute to extractm e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
 `as`    | Key in an ephemeral storage to save contents to. | `string` | `undefined`
 
@@ -482,7 +504,7 @@ The `screenshot` step takes a screenshot of the current page and saves it into t
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`name`    | The filename to save the screenshot as. | `string` | `undefined`
+`name`*    | The filename to save the screenshot as. | `string` | `undefined`
 
 ```yaml
 - screenshot: test.png
