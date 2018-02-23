@@ -4,7 +4,6 @@
   "title": "Web Automation Markup Language",
   "description": "A standard, programming language-agnostic specification language for a sequence of steps which can be performed on web pages within the context of a web browser.",
   "type": "object",
-  "definitions": {},
   "properties": {
     "waml": {
       "description": "WAML Specification semantic version number.",
@@ -60,10 +59,204 @@
       "additionalProperties": false
     },
     "steps": {
-      "description": "A sequence of one or more steps.",
-      "type": "array"
+      "description": "A sequence of one or more steps (a 'flow'.)",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/step"
+      }
     }
   },
-  "required": ["waml"],
-  "additionalProperties": false
+  "required": ["waml", "steps"],
+  "additionalProperties": false,
+  "definitions": {
+    "step": {
+      "description": "A step represents a single user interaction.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/visitStep"
+        },
+        {
+          "$ref": "#/definitions/clickStep"
+        },
+        {
+          "$ref": "#/definitions/hoverStep"
+        },
+        {
+          "$ref": "#/definitions/focusStep"
+        },
+        {
+          "$ref": "#/definitions/selectStep"
+        },
+        {
+          "$ref": "#/definitions/fillStep"
+        },
+        {
+          "$ref": "#/definitions/typeStep"
+        },
+        {
+          "$ref": "#/definitions/pressStep"
+        },
+        {
+          "$ref": "#/definitions/waitStep"
+        },
+        {
+          "$ref": "#/definitions/refreshStep"
+        },
+        {
+          "$ref": "#/definitions/backStep"
+        },
+        {
+          "$ref": "#/definitions/forwardStep"
+        },
+        {
+          "$ref": "#/definitions/scrapeStep"
+        },
+        {
+          "$ref": "#/definitions/screenshotStep"
+        },
+      ]
+    },
+    "visitStep": {
+      "description": "Navigate to a specifie URL.",
+      "type": "object",
+      "properties": {
+        "visit": { "type": "string", "format": "uri" }
+      },
+      "required": ["visit"],
+      "additionalProperties": false
+    },
+    "clickStep": {
+      "description": "Click an element.",
+      "type": "object",
+      "properties": {
+        "click": { "type": "string" }
+      },
+      "required": ["click"],
+      "additionalProperties": false
+    },
+    "hoverStep": {
+      "description": "Hover over an element.",
+      "type": "object",
+      "properties": {
+        "hover": { "type": "string" }
+      },
+      "required": ["hover"],
+      "additionalProperties": false
+    },
+    "focusStep": {
+      "description": "Focus to an element.",
+      "type": "object",
+      "properties": {
+        "focus": { "type": "string" }
+      },
+      "required": ["focus"],
+      "additionalProperties": false
+    },
+    "selectStep": {
+      "description": "Focus and select one or more values from a dropdown element.",
+      "type": "object",
+      "properties": {
+        "select": { 
+          "type": "object",
+          "properties": {
+            "selector": { "type": "string" },
+            "value": { "type": "string" }
+          },
+          "required": ["selector", "value"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "fillStep": {
+      "description": "Focus an type a string into an input element.",
+      "type": "object",
+      "properties": {
+        "fill": { 
+          "type": "object",
+          "properties": {
+            "selector": { "type": "string" },
+            "value": { "type": "string" }
+          },
+          "required": ["selector", "value"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "typeStep": {
+      "description": "Type a string of characters.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "pressStep": {
+      "description": "Type a special key, such as Shift and Enter.",
+      "type": "object",
+      "properties": {
+        "press": { "type": "string" }
+      },
+      "required": ["press"],
+      "additionalProperties": false
+    },
+    "waitStep": {
+      "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
+      "oneOf": [
+        { 
+          "type": "object",
+          "properties": {
+            "wait": { "type": ["string", "integer"] }
+          },
+          "required": ["wait"],
+          "additionalProperties": false 
+        },
+        { "type": "string", "enum": ["wait"] }
+      ]
+    },
+    "refreshStep": {
+      "description": "Refresh the current page.",
+      "type": "string",
+      "enum": ["refresh"]
+    },
+    "backStep": {
+      "description": "Move backward in the browser history.",
+      "type": "string",
+      "enum": ["back"]
+    },
+    "forwardStep": {
+      "description": "Move forward in the browser history.",
+      "type": "string",
+      "enum": ["forward"]
+    },
+    "scrapeStep": {
+      "description": "Scrape the HTML document for specified elements and/or attributes.",
+      "type": "object",
+      "properties": {
+        "scrape": { 
+          "type": "object",
+          "properties": {
+            "selector": { "type": "string" },
+            "attr": { "type": "string" },
+            "as": { "type": "string" }
+          },
+          "required": ["selector", "attr"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "screenshotStep": {
+      "description": "Take a screenshot of the page.",
+      "type": "object",
+      "properties": {
+        "screenshot": { "type": "string" }
+      },
+      "required": ["screenshot"],
+      "additionalProperties": false
+    }
+  }
 }

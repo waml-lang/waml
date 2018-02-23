@@ -82,57 +82,57 @@ A WAML document consists of many *Fields*.
 
 ## Full Example
 
-Here is an example WAML document which
+Here is an example WAML document which exercises all possible fields and options.
 
 ```yaml
-waml: 0.1.0 # WAML version
+waml: 0.1.0
 
-info: # Metadata about the WAML document
+info:
   name: An example WAML document.
   description: High-level summary of the user flow.
 
-variables: # A mapping of variables to be defined in the flow context
+variables:
   someValue: Hello world
   isMobile: true
 
-context: # Browser emulation settings
-  viewport: # Browser window dimensions
+context:
+  viewport:
     width: 800
     height: 600
-  headers: # Additional HTTP headers to be sent with every request
+  headers:
     X-API-Key: 123
     Authorization: Bearer abc
-  cookies: # Browser cookies
+  cookies:
     - cookieName: cookieValue
   mediaType: screen
-  userAgent: myUserAgent # Browser user agent
+  userAgent: myUserAgent
   device: 'iPhone4'
-  timeout: 5 # Maximum navigation time
+  timeout: 5
 
-steps: # A sequence of user interactions
-  - visit: https://google.com # Navigating to a URL
-  - click: a.link # Click an HTML element
-  - hover: a#about # Hovering the mouse over an HTML element
-  - focus: input#search # Focusing on an HTML element
-  - select: # Focusing and selecting one or more values from a dropdown
+steps:
+  - visit: https://google.com
+  - click: a.link
+  - hover: a#about
+  - focus: input#search
+  - select:
       selector: select#colors
       value: 'blue'
-  - fill: # Focus to an element and type things in
+  - fill:
       selector: input#search
       value: Ugandan knuckles
-  - type: ${someValue} # Types words, also: references custom.someValue
-  - press: Shift # Type a special key, like Shift
-  - wait: div#results # Selector of an element to wait for
-  - wait: 3000 # Time to wait
-  - wait # Wait for a page load to finish
-  - refresh # Reload the current page
-  - back # Go backwards in the browser history
-  - forward # Go forwards in the browser history
-  - scrape: # Scrape data from the HTML document
-      selector: input#search # can be single or multiple
-      attr: value # Element attribute to scrape
-      as: myKey # Key to save as in emphemeral storage
-  - screenshot: test.png # Take screenshot of the page
+  - type: ${someValue}
+  - press: Shift
+  - wait: div#results
+  - wait: 3000
+  - wait
+  - refresh
+  - back
+  - forward
+  - scrape:
+      selector: input#search
+      attr: value
+      as: myKey
+  - screenshot: test.png
 ```
 
 ## Fields
