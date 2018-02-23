@@ -141,8 +141,6 @@ A WAML document must begin with a version declaration within the top-level `waml
 
 The `waml` field is **required**.
 
-##### Example
-
 ```yaml
 waml: 0.1.0
 ```
@@ -152,8 +150,6 @@ waml: 0.1.0
 The Info field provides general information about the Flow.
 
 The `info` field is optional.
-
-##### Example
 
 ```yaml
 info: # Metadata about the WAML document
@@ -174,8 +170,6 @@ The Variables field stores variables used in the `steps` field.
 You can store any key-value pairs. Values must be a literal value and must not be nested.
 
 The use of variables and the `variables` field is optional.
-
-##### Example
 
 ```yaml
 variables: # A mapping of variables to be defined in the flow context
@@ -199,8 +193,6 @@ steps:
 The Context field defines the browser's context and emulation configuration.
 
 The `context` field is optional.
-
-##### Example
 
 ```yaml
 context: # Browser emulation settings (optional)
@@ -236,8 +228,6 @@ The Steps field contains a sequence of one or more steps.
 Each step is a StepObject that represents a particular user action, such as clicking an HTML element.
 
 The `steps` field is **required**.
-
-##### Example
 
 ```yaml
 steps: # A sequence of user interactions
@@ -291,8 +281,6 @@ Step Name | Description
 
 The `visit` step navigates to a specified URL.
 
-##### Example
-
 ```yaml
 - visit: https://google.com
 ```
@@ -307,8 +295,6 @@ Property | Description | Type | Default
 
 The `click` step clicks to a specified HTML element by [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 If there are multiple elements satisfying the selector, the first will be clicked.
-
-##### Example
 
 ```yaml
 - click: a.link # Clicks first matching element
@@ -332,8 +318,6 @@ Property | Description | Type | Default
 The `hover` step hovers the mouse pointer over a specified HTML element.
 If there are multiple elements satisfying the selector, the first will be hovered.
 
-##### Example
-
 ```yaml
 - hover: a#sign-in
 ```
@@ -348,8 +332,6 @@ Property | Description | Type | Default
 
 The `focus` step focuses over a specified HTML element.
 If there are multiple elements satisfying the selector, the first will be focused.
-
-##### Example
 
 ```yaml
 - focus: input#search
@@ -366,8 +348,6 @@ Property | Description | Type | Default
 The `select` step focuses over a specified dropdown element and selects one or more values.
 
 If the `<select>` has the `multiple` attribute, all values are considered, otherwise only the first one is taken into account.
-
-##### Example
 
 ```yaml
 - select:
@@ -395,8 +375,6 @@ Property | Description | Type | Default
 
 The `fill` step types a string of text into a focused HTML element.
 
-##### Example
-
 ```yaml
 - fill:
     selector: input#search
@@ -414,8 +392,6 @@ Property | Description | Type | Default
 
 The `types` step types a string of text.
 
-##### Example
-
 ```yaml
 - type: Hello world 123 嗨
 ```
@@ -430,8 +406,6 @@ Property | Description | Type | Default
 
 The `press` step types special characters.
 
-##### Example
-
 ```yaml
 - press: ArrowLeft
 ```
@@ -445,8 +419,6 @@ Property | Description | Type | Default
 ### Wait
 
 The `wait` step lets you wait by a specified interval, for an HMTL element to load, or for a page navigation to finish.
-
-##### Example
 
 ```yaml
 - wait: div#results # Selector of an element to wait for
@@ -465,8 +437,6 @@ Property | Description | Type | Default
 
 The `refresh` step refreshes the current page.
 
-##### Example
-
 ```yaml
 - refresh
 ```
@@ -474,8 +444,6 @@ The `refresh` step refreshes the current page.
 ### Back
 
 The `back` step moves the current page back in the browser navigation history.
-
-##### Example
 
 ```yaml
 - back
@@ -485,8 +453,6 @@ The `back` step moves the current page back in the browser navigation history.
 
 The `forward` step moves the current page forward in the browser navigation history.
 
-##### Example
-
 ```yaml
 - forward
 ```
@@ -494,8 +460,6 @@ The `forward` step moves the current page forward in the browser navigation hist
 ### Scrape
 
 The `scrape` step lets extract and evaluate attributes and HTML elements of the current page.
-
-##### Example
 
 ```yaml
 - scrape: # Scrape data from the HTML document
@@ -519,8 +483,6 @@ The `screenshot` step takes a screenshot of the current page and saves it into t
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
 `name`    | The filename to save the screenshot as. | `string` | `undefined`
-
-##### Example
 
 ```yaml
 - screenshot: test.png
