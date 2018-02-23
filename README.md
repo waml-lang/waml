@@ -26,7 +26,7 @@ steps:
 
 WAML documents are represented in either YAML or JSON formats. These documents may be written manually or generated dynamically from an application (such as a browser extension.) WAML is both human and machine-readable.
 
-> The WAML schema is based on [JSON Schema](http://json-schema.org/) defined [here]().
+> The WAML schema is based on [JSON Schema](http://json-schema.org/) defined [here](https://github.com/waml-lang/waml/blob/master/schemas/schema.json).
 
 ## Use Cases
 
@@ -95,7 +95,7 @@ variables: # A mapping of variables to be defined in the flow context
   someValue: Hello world
   isMobile: true
 
-context: # Browser emulation settings (optional)
+context: # Browser emulation settings
   viewport: # Browser window dimensions
     width: 800
     height: 600
@@ -178,12 +178,12 @@ info: # Metadata about the WAML document
 Field Name | Type | Description
 ---|:---:|---
 name | `string` | The name of the flow.
-description | `string` | A description of the flow.
+description | `string` | A short summary of the flow.
 
 ### 3. Variables
 
 The Variables field stores variables used in the `steps` field.
-You can store any key-value pairs. Values must be a literal value and must not be nested.
+You can store any key-value pairs. Values must be a literal value (`string`, `number`, or `boolean`) and must not be nested.
 
 The use of variables and the `variables` field is optional.
 
@@ -233,9 +233,9 @@ Field Name | Type | Description
 viewport | `ViewportObject`  | The `width` and `height` of the viewport.
 headers | `object` | A set of key-value pairs containing additional HTTP headers to be sent with every request.
 cookies | `[]CookieObject` | A set of key-value pairs containing cookies of the browser context.
-mediaType | `string` | The browser's media type. Values can be "screen", "print", or "none".
+mediaType | `string` | The browser's media type. Values can be "screen" or "print".
 userAgent | `string` | The browser's user agent string.
-timeout | `integer` | The maximum navigation timeout in seconds.
+timeout | `integer` | The maximum navigation timeout in milliseconds.
 device | `string` | Device descriptor to emulate. List [here](https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js).
 
 ### 5. Steps
@@ -266,14 +266,14 @@ Steps can have a compact version which omits default and optional parameters, an
 - click: a.link # Click an HTML element
 ```
 
-We can also use the expanded version of `click` to specify a target from a list of elements:
+But you can also use the expanded version of `click` to specify a target from a list of elements:
 
 > Expanded version
 
 ```yaml
 - click: # Expanded version of click
     selector: 'ytd-thumbnail.ytd-video-renderer'
-    value: 2 # click 3rd video from the list
+    index: 2 # click 3rd video from the list
 ```
 
 ## Step Library

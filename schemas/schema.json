@@ -1,0 +1,69 @@
+{
+  "$id": "https://waml.io/schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Web Automation Markup Language",
+  "description": "A standard, programming language-agnostic specification language for a sequence of steps which can be performed on web pages within the context of a web browser.",
+  "type": "object",
+  "definitions": {},
+  "properties": {
+    "waml": {
+      "description": "WAML Specification semantic version number.",
+      "type": "string",
+      "pattern": "^([0-9]{1,}.[0-9]{1,}.[0-9]{1,})$",
+      "examples": [
+        "0.1.0"
+      ]
+    },
+    "info": {
+      "description": "General information about the flow.",
+      "type": "object",
+      "properties": {
+        "name": { "description": "The name of the flow.", "type": "string" },
+        "description": { "description": "A short summary of the flow.", "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "variables": {
+      "description": "Stores variables used in the flow.",
+      "type": "object",
+      "additionalProperties": { "type": ["string", "number", "boolean"] }
+    },  
+    "context": {
+      "description": "Defines the browser's context and emulation configuration.",
+      "type": "object",
+      "properties": {
+        "viewport": {
+          "description": "The browser's viewport dimensions.",
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "minimum": 0 },
+            "height": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "headers": { 
+          "description": "The browser's HTTP headers.",
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "cookies": { 
+          "description": "The browser's cookies.",
+          "type": "array", 
+          "items": { "type": "object" },
+          "uniqueItems": true
+        },
+        "mediaType": { "description": "The browser's media type.", "type": "string", "enum": ["screen", "print"], "default": "screen" },
+        "userAgent": { "description": "The browser's user agent string.", "type": "string" },
+        "device": { "description": "Descriptor of a device to emulate.", "type": "string" },
+        "timeout": { "description": "The maximum navigation time in milliseconds.", "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "steps": {
+      "description": "A sequence of one or more steps.",
+      "type": "array"
+    }
+  },
+  "required": ["waml"],
+  "additionalProperties": false
+}

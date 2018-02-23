@@ -8,7 +8,7 @@ variables: # A mapping of variables to be defined in the flow context
   someValue: Hello world
   isMobile: true
 
-context: # Browser emulation settings (optional)
+context: # Browser emulation settings
   viewport: # Browser window dimensions
     width: 800
     height: 600
