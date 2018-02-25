@@ -42,7 +42,7 @@ The WAML specification can be used to define flows for:
   * Integration end-to-end testing
   * Uptime monitoring
   * Evaluating web best practices
-  
+
 
 # WAML Specification
 
@@ -272,8 +272,8 @@ But you can also use the expanded version of `click` to specify a target from a 
 
 ```yaml
 - click: # Expanded version of click
-    selector: 'ytd-thumbnail.ytd-video-renderer'
-    index: 2 # click 3rd video from the list
+    selector: a.link
+    index: 2 # click 3rd element from a list
 ```
 
 ## Step Library

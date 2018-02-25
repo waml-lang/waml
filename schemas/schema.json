@@ -26,7 +26,7 @@
       "description": "Stores variables used in the flow.",
       "type": "object",
       "additionalProperties": { "type": ["string", "number", "boolean"] }
-    },  
+    },
     "context": {
       "description": "Defines the browser's context and emulation configuration.",
       "type": "object",
@@ -40,14 +40,14 @@
           },
           "additionalProperties": false
         },
-        "headers": { 
+        "headers": {
           "description": "The browser's HTTP headers.",
           "type": "object",
           "additionalProperties": { "type": "string" }
         },
-        "cookies": { 
+        "cookies": {
           "description": "The browser's cookies.",
-          "type": "array", 
+          "type": "array",
           "items": { "type": "object" },
           "uniqueItems": true
         },
@@ -128,12 +128,32 @@
     },
     "clickStep": {
       "description": "Click an element.",
-      "type": "object",
-      "properties": {
-        "click": { "type": "string" }
-      },
-      "required": ["click"],
-      "additionalProperties": false
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "click": { "type": "string" }
+          },
+          "required": ["click"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "click": {
+              "type": "object",
+              "properties": {
+                "selector": { "type": "string" },
+                "index": { "type": "integer"}
+              },
+              "required": ["selector", "index"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["click"],
+          "additionalProperties": false
+        }
+      ],
     },
     "hoverStep": {
       "description": "Hover over an element.",
@@ -157,11 +177,16 @@
       "description": "Focus and select one or more values from a dropdown element.",
       "type": "object",
       "properties": {
-        "select": { 
+        "select": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
-            "value": { "type": "string" }
+            "value": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+              ]
+            }
           },
           "required": ["selector", "value"],
           "additionalProperties": false
@@ -173,7 +198,7 @@
       "description": "Focus an type a string into an input element.",
       "type": "object",
       "properties": {
-        "fill": { 
+        "fill": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -206,13 +231,13 @@
     "waitStep": {
       "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
       "oneOf": [
-        { 
+        {
           "type": "object",
           "properties": {
             "wait": { "type": ["string", "integer"] }
           },
           "required": ["wait"],
-          "additionalProperties": false 
+          "additionalProperties": false
         },
         { "type": "string", "enum": ["wait"] }
       ]
@@ -236,7 +261,7 @@
       "description": "Scrape the HTML document for specified elements and/or attributes.",
       "type": "object",
       "properties": {
-        "scrape": { 
+        "scrape": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
