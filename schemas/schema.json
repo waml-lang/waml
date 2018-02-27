@@ -28,21 +28,21 @@
       "additionalProperties": { "type": ["string", "number", "boolean"] }
     },  
     "context": {
-      "$ref": "$/definitions/context"
+      "$ref": "#/definitions/Context"
     },
     "steps": {
       "description": "A sequence of one or more steps (a 'flow'.)",
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/definitions/step"
+        "$ref": "#/definitions/Step"
       }
     }
   },
   "required": ["waml", "steps"],
   "additionalProperties": false,
   "definitions": {
-    "context": {
+    "Context": {
       "description": "Defines the browser's context and emulation configuration.",
       "type": "object",
       "properties": {
@@ -73,60 +73,60 @@
       },
       "additionalProperties": false
     },
-    "step": {
+    "Step": {
       "description": "A step represents a single user interaction.",
       "oneOf": [
         {
-          "$ref": "#/definitions/visitStep"
+          "$ref": "#/definitions/VisitStep"
         },
         {
-          "$ref": "#/definitions/clickStep"
+          "$ref": "#/definitions/ClickStep"
         },
         {
-          "$ref": "#/definitions/hoverStep"
+          "$ref": "#/definitions/HoverStep"
         },
         {
-          "$ref": "#/definitions/focusStep"
+          "$ref": "#/definitions/FocusStep"
         },
         {
-          "$ref": "#/definitions/selectStep"
+          "$ref": "#/definitions/SelectStep"
         },
         {
-          "$ref": "#/definitions/fillStep"
+          "$ref": "#/definitions/FillStep"
         },
         {
-          "$ref": "#/definitions/typeStep"
+          "$ref": "#/definitions/TypeStep"
         },
         {
-          "$ref": "#/definitions/pressStep"
+          "$ref": "#/definitions/PressStep"
         },
         {
-          "$ref": "#/definitions/waitStep"
+          "$ref": "#/definitions/WaitStep"
         },
         {
-          "$ref": "#/definitions/refreshStep"
+          "$ref": "#/definitions/RefreshStep"
         },
         {
-          "$ref": "#/definitions/backStep"
+          "$ref": "#/definitions/BackStep"
         },
         {
-          "$ref": "#/definitions/forwardStep"
+          "$ref": "#/definitions/ForwardStep"
         },
         {
-          "$ref": "#/definitions/scrapeStep"
+          "$ref": "#/definitions/ScrapeStep"
         },
         {
-          "$ref": "#/definitions/evaluateStep"
+          "$ref": "#/definitions/EvaluateStep"
         },
         {
-          "$ref": "#/definitions/setContextStep"
+          "$ref": "#/definitions/SetContextStep"
         },
         {
-          "$ref": "#/definitions/screenshotStep"
+          "$ref": "#/definitions/ScreenshotStep"
         }
       ]
     },
-    "visitStep": {
+    "VisitStep": {
       "description": "Navigate to a specifie URL.",
       "type": "object",
       "properties": {
@@ -135,7 +135,7 @@
       "required": ["visit"],
       "additionalProperties": false
     },
-    "clickStep": {
+    "ClickStep": {
       "description": "Click an element.",
       "type": "object",
       "properties": {
@@ -144,7 +144,7 @@
       "required": ["click"],
       "additionalProperties": false
     },
-    "hoverStep": {
+    "HoverStep": {
       "description": "Hover over an element.",
       "type": "object",
       "properties": {
@@ -153,7 +153,7 @@
       "required": ["hover"],
       "additionalProperties": false
     },
-    "focusStep": {
+    "FocusStep": {
       "description": "Focus to an element.",
       "type": "object",
       "properties": {
@@ -162,7 +162,7 @@
       "required": ["focus"],
       "additionalProperties": false
     },
-    "selectStep": {
+    "SelectStep": {
       "description": "Focus and select one or more values from a dropdown element.",
       "type": "object",
       "properties": {
@@ -178,7 +178,7 @@
       },
       "additionalProperties": false
     },
-    "fillStep": {
+    "FillStep": {
       "description": "Focus an type a string into an input element.",
       "type": "object",
       "properties": {
@@ -194,7 +194,7 @@
       },
       "additionalProperties": false
     },
-    "typeStep": {
+    "TypeStep": {
       "description": "Type a string of characters.",
       "type": "object",
       "properties": {
@@ -203,7 +203,7 @@
       "required": ["type"],
       "additionalProperties": false
     },
-    "pressStep": {
+    "PressStep": {
       "description": "Type a special key, such as Shift and Enter.",
       "type": "object",
       "properties": {
@@ -212,7 +212,7 @@
       "required": ["press"],
       "additionalProperties": false
     },
-    "waitStep": {
+    "WaitStep": {
       "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
       "oneOf": [
         { 
@@ -226,22 +226,22 @@
         { "type": "string", "enum": ["wait"] }
       ]
     },
-    "refreshStep": {
+    "RefreshStep": {
       "description": "Refresh the current page.",
       "type": "string",
       "enum": ["refresh"]
     },
-    "backStep": {
+    "BackStep": {
       "description": "Move backward in the browser history.",
       "type": "string",
       "enum": ["back"]
     },
-    "forwardStep": {
+    "ForwardStep": {
       "description": "Move forward in the browser history.",
       "type": "string",
       "enum": ["forward"]
     },
-    "scrapeStep": {
+    "ScrapeStep": {
       "description": "Scrape the HTML document for specified elements and attributes.",
       "type": "object",
       "properties": {
@@ -258,7 +258,7 @@
       },
       "additionalProperties": false
     },
-    "evaluateStep": {
+    "EvaluateStep": {
       "description": "Evaluates a Javascript expression in the current page context.",
       "type": "object",
       "properties": {
@@ -267,17 +267,17 @@
       "required": ["evaluate"],
       "additionalProperties": false
     },
-    "setContextStep": {
+    "SetContextStep": {
       "description": "Modifies the current browser context.",
       "type": "object",
       "properties": {
         "setContext": { 
-          "$ref": "$/definitions/context"
+          "$ref": "#/definitions/Context"
         }
       },
       "additionalProperties": false
     },
-    "screenshotStep": {
+    "ScreenshotStep": {
       "description": "Take a screenshot of the page.",
       "type": "object",
       "properties": {

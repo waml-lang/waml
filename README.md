@@ -11,6 +11,8 @@ Web Automation Markup Language.
 
 The Web Automation Markup Language (WAML) defines a standard, programming language-agnostic specification for a sequence of steps which can be performed on web pages within the context of a web browser.
 
+Give WAML a try with the online [WAML editor](https://waml.io/editor).
+
 ```yaml
 waml: 0.1.0
 
@@ -26,7 +28,7 @@ steps:
 
 WAML documents are represented in either YAML or JSON formats. These documents may be written manually or generated dynamically from an application (such as a browser extension.) WAML is both human and machine-readable.
 
-> The WAML schema is based on [JSON Schema](http://json-schema.org/) defined [here](https://github.com/waml-lang/waml/blob/master/schemas/schema.json).
+> The WAML schema is based on [JSON Schema draft-07](http://json-schema.org/) defined [here](https://github.com/waml-lang/waml/blob/master/schemas/schema.json).
 
 ## Use Cases
 
