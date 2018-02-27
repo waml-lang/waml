@@ -72,6 +72,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Back](#back)
   * [Forward](#forward)
   * [Scrape](#scrape)
+  * [Evaluate](#evaluate)
+  * [SetContext](#setcontext)
   * [Screenshot](#screenshot)
 
 ## Terminology
@@ -132,6 +134,11 @@ steps:
       selector: input#search
       attr: value
       as: myKey
+  - evaluate: window.location.href
+  - setContext: 
+      viewport:
+        height: 400
+        width: 300
   - screenshot: test.png
 ```
 
@@ -294,7 +301,9 @@ Step Name | Description
 [refresh](#refresh)  | Refresh the current page.
 [back](#back)  | Move backward in the browser history.
 [forward](#forward)  | Move forward in the browser history.
-[scrape](#scrape)  | Scrape the HTML document for specified elements and/or attributes.
+[scrape](#scrape)  | Scrape the HTML document for specified elements and attributes.
+[evaluate](#evaluate) | Evaluate an expression in the page context.
+[setContext](#setcontext) | Modify browser context / emulation settings.
 [screenshot](#screenshot)  | Take a screenshot of the page.
 
 > Properties marked with a `*` suffix is **required**.
@@ -496,7 +505,45 @@ Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
 `selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
 `attr`    | Element attribute to extractm e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
-`as`    | Key in an ephemeral storage to save contents to. | `string` | `undefined`
+`as`    | Key in an ephemeral storage to save results to. | `string` | `undefined`
+
+
+### Evaluate
+
+The `evaluate` step takes a Javascript expression and evaluates it in the current page context.
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+`expression`*    | Javascript Expression. | `string` | `undefined`
+
+```yaml
+- evaluate: window.location.href
+```
+
+
+### SetContext
+
+The `SetContext` step updates the browser context / emulation settings.
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+`context`*    | Context object containing headers, cookies, etc. | `Context Object` | `undefined`
+
+```yaml
+- setContext:
+    viewport:
+      width: 800
+      height: 600
+    headers:
+      X-API-Key: 123
+      Authorization: Bearer abc
+    cookies:
+      - cookieName: cookieValue
+    mediaType: screen
+    userAgent: myUserAgent
+    device: 'iPhone4'
+    timeout: 5
+```
 
 ### Screenshot
 

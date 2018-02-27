@@ -45,4 +45,9 @@ steps: # A sequence of user interactions
       selector: input#search # can be single or multiple
       attr: value # Element attribute to scrape el.value / el.href / el.outerHTML (Optional, defaults to element outerHTML)
       as: abc # Key to write to in ephemeral data store
+  - evaluate: window.location.href
+  - setContext: 
+      viewport:
+        height: 400
+        width: 300      
   - screenshot: test.png # Take screenshot of the page

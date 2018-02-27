@@ -26,37 +26,9 @@
       "description": "Stores variables used in the flow.",
       "type": "object",
       "additionalProperties": { "type": ["string", "number", "boolean"] }
-    },
+    },  
     "context": {
-      "description": "Defines the browser's context and emulation configuration.",
-      "type": "object",
-      "properties": {
-        "viewport": {
-          "description": "The browser's viewport dimensions.",
-          "type": "object",
-          "properties": {
-            "width": { "type": "integer", "minimum": 0 },
-            "height": { "type": "integer", "minimum": 0 }
-          },
-          "additionalProperties": false
-        },
-        "headers": {
-          "description": "The browser's HTTP headers.",
-          "type": "object",
-          "additionalProperties": { "type": "string" }
-        },
-        "cookies": {
-          "description": "The browser's cookies.",
-          "type": "array",
-          "items": { "type": "object" },
-          "uniqueItems": true
-        },
-        "mediaType": { "description": "The browser's media type.", "type": "string", "enum": ["screen", "print"], "default": "screen" },
-        "userAgent": { "description": "The browser's user agent string.", "type": "string" },
-        "device": { "description": "Descriptor of a device to emulate.", "type": "string" },
-        "timeout": { "description": "The maximum navigation time in milliseconds.", "type": "integer", "minimum": 0 }
-      },
-      "additionalProperties": false
+      "$ref": "$/definitions/context"
     },
     "steps": {
       "description": "A sequence of one or more steps (a 'flow'.)",
@@ -70,6 +42,37 @@
   "required": ["waml", "steps"],
   "additionalProperties": false,
   "definitions": {
+    "context": {
+      "description": "Defines the browser's context and emulation configuration.",
+      "type": "object",
+      "properties": {
+        "viewport": {
+          "description": "The browser's viewport dimensions.",
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "minimum": 0 },
+            "height": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "headers": { 
+          "description": "The browser's HTTP headers.",
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "cookies": { 
+          "description": "The browser's cookies.",
+          "type": "array", 
+          "items": { "type": "object" },
+          "uniqueItems": true
+        },
+        "mediaType": { "description": "The browser's media type.", "type": "string", "enum": ["screen", "print"], "default": "screen" },
+        "userAgent": { "description": "The browser's user agent string.", "type": "string" },
+        "device": { "description": "Descriptor of a device to emulate.", "type": "string" },
+        "timeout": { "description": "The maximum navigation time in milliseconds.", "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
     "step": {
       "description": "A step represents a single user interaction.",
       "oneOf": [
@@ -113,8 +116,14 @@
           "$ref": "#/definitions/scrapeStep"
         },
         {
-          "$ref": "#/definitions/screenshotStep"
+          "$ref": "#/definitions/evaluateStep"
         },
+        {
+          "$ref": "#/definitions/setContextStep"
+        },
+        {
+          "$ref": "#/definitions/screenshotStep"
+        }
       ]
     },
     "visitStep": {
@@ -128,32 +137,12 @@
     },
     "clickStep": {
       "description": "Click an element.",
-      "oneOf": [
-        {
-          "type": "object",
-          "properties": {
-            "click": { "type": "string" }
-          },
-          "required": ["click"],
-          "additionalProperties": false
-        },
-        {
-          "type": "object",
-          "properties": {
-            "click": {
-              "type": "object",
-              "properties": {
-                "selector": { "type": "string" },
-                "index": { "type": "integer"}
-              },
-              "required": ["selector", "index"],
-              "additionalProperties": false
-            }
-          },
-          "required": ["click"],
-          "additionalProperties": false
-        }
-      ],
+      "type": "object",
+      "properties": {
+        "click": { "type": "string" }
+      },
+      "required": ["click"],
+      "additionalProperties": false
     },
     "hoverStep": {
       "description": "Hover over an element.",
@@ -177,16 +166,11 @@
       "description": "Focus and select one or more values from a dropdown element.",
       "type": "object",
       "properties": {
-        "select": {
+        "select": { 
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
-            "value": {
-              "oneOf": [
-                { "type": "string" },
-                { "type": "array", "items": { "type": "string" }, "minItems": 1 }
-              ]
-            }
+            "value": { "type": "string" }
           },
           "required": ["selector", "value"],
           "additionalProperties": false
@@ -198,7 +182,7 @@
       "description": "Focus an type a string into an input element.",
       "type": "object",
       "properties": {
-        "fill": {
+        "fill": { 
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -231,13 +215,13 @@
     "waitStep": {
       "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
       "oneOf": [
-        {
+        { 
           "type": "object",
           "properties": {
             "wait": { "type": ["string", "integer"] }
           },
           "required": ["wait"],
-          "additionalProperties": false
+          "additionalProperties": false 
         },
         { "type": "string", "enum": ["wait"] }
       ]
@@ -258,10 +242,10 @@
       "enum": ["forward"]
     },
     "scrapeStep": {
-      "description": "Scrape the HTML document for specified elements and/or attributes.",
+      "description": "Scrape the HTML document for specified elements and attributes.",
       "type": "object",
       "properties": {
-        "scrape": {
+        "scrape": { 
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -270,6 +254,25 @@
           },
           "required": ["selector", "attr"],
           "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "evaluateStep": {
+      "description": "Evaluates a Javascript expression in the current page context.",
+      "type": "object",
+      "properties": {
+        "evaluate": { "type": "string" }
+      },
+      "required": ["evaluate"],
+      "additionalProperties": false
+    },
+    "setContextStep": {
+      "description": "Modifies the current browser context.",
+      "type": "object",
+      "properties": {
+        "setContext": { 
+          "$ref": "$/definitions/context"
         }
       },
       "additionalProperties": false
