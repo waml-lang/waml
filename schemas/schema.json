@@ -9,9 +9,7 @@
       "description": "WAML Specification semantic version number.",
       "type": "string",
       "pattern": "^([0-9]{1,}.[0-9]{1,}.[0-9]{1,})$",
-      "examples": [
-        "0.1.0"
-      ]
+      "enum": ["0.1.0"]
     },
     "info": {
       "description": "General information about the Flow.",
@@ -66,7 +64,7 @@
           "items": { "type": "object" },
           "uniqueItems": true
         },
-        "mediaType": { "description": "The browser's media type.", "type": "string", "enum": ["screen", "print"], "default": "screen" },
+        "mediaType": { "description": "The browser's media type.", "type": "string", "enum": ["screen", "print"] },
         "userAgent": { "description": "The browser's user agent string.", "type": "string" },
         "device": { "description": "Descriptor of a device to emulate.", "type": "string" },
         "timeout": { "description": "The maximum navigation time in milliseconds.", "type": "integer", "minimum": 0 }

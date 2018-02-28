@@ -342,7 +342,7 @@ Step Name | Description
 [setContext](#setcontext) | Modify browser context / emulation settings.
 [snap](#snap)  | Take a screenshot of the page.
 
-> Properties marked with a `*` suffix is **required**.
+> **`Bolded`** properties are **required** properties.
 
 ### Visit
 
@@ -356,7 +356,7 @@ The `visit` step navigates to a specified URL.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`url`*    | The URL to navigate. Must be prefixed with either `http://` or `https://`. | `string` | `undefined`
+**`url`**    | The URL to navigate. Must be prefixed with either `http://` or `https://`. | `string` | `undefined`
 
 ### Click
 
@@ -377,7 +377,7 @@ If there are multiple elements satisfying the selector, the first will be clicke
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
 `index`    | Index of element, if there are multiple matching elements. | `integer` | `undefined`
 
 ### Hover
@@ -393,7 +393,7 @@ If there are multiple elements satisfying the selector, the first will be hovere
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
 
 ### Focus
 
@@ -408,7 +408,7 @@ If there are multiple elements satisfying the selector, the first will be focuse
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
 
 ### Select
 
@@ -435,8 +435,8 @@ If the `<select>` HTML element has the `multiple` attribute, all values are cons
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
-`value`*    | One or more values. | `array` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
+**`value`**    | One or more values. | `array` | `undefined`
 
 ### Fill
 
@@ -452,8 +452,8 @@ The `fill` step types a string of text into a focused HTML element, usually form
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
-`value`*    | String of text to type in. | `string` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
+**`value`**    | String of text to type in. | `string` | `undefined`
 
 ### Type
 
@@ -467,7 +467,7 @@ The `types` step types a string of text.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`value`*    | String of text to type in. | `string` | `undefined`
+**`value`**    | String of text to type in. | `string` | `undefined`
 
 ### Press
 
@@ -481,7 +481,7 @@ The `press` step types special keys such as `Shift` and `Enter`.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`key`*    | Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout](https://github.com/GoogleChrome/puppeteer/blob/v1.0.0/lib/USKeyboardLayout.js) for a list of all key names. | `string` | `undefined`
+**`key`**    | Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout](https://github.com/GoogleChrome/puppeteer/blob/v1.0.0/lib/USKeyboardLayout.js) for a list of all key names. | `string` | `undefined`
 
 ### Wait
 
@@ -505,7 +505,7 @@ Property | Description | Type | Default
 The `refresh` step refreshes the current page.
 
 ```yaml
-- refresh
+- refresh:
 ```
 
 ### Back
@@ -513,7 +513,7 @@ The `refresh` step refreshes the current page.
 The `back` step moves the current page backward in browser navigation history.
 
 ```yaml
-- back
+- back:
 ```
 
 ### Forward
@@ -521,7 +521,7 @@ The `back` step moves the current page backward in browser navigation history.
 The `forward` step moves the current page forward in browser navigation history.
 
 ```yaml
-- forward
+- forward:
 ```
 
 ### Scrape
@@ -539,9 +539,9 @@ The `scrape` step lets extract and evaluate attributes and HTML elements of the 
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
+**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
 `attr`    | Element attribute to extract e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
-`as`*    | Key in variable storage to save results under. | `string` | `undefined`
+**`as`**    | Key in variable storage to save results under. | `string` | `undefined`
 
 
 ### Evaluate
@@ -550,8 +550,8 @@ The `evaluate` step takes a Javascript expression and evaluates it in the curren
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`expression`*    | Javascript expression. | `Expression` | `undefined`
-`as`*    | Key in variable storage to save results under. | `string` | `undefined`
+**`expression`**    | Javascript expression. | `Expression` | `undefined`
+**`as`**    | Key in variable storage to save results under. | `string` | `undefined`
 
 ```yaml
 - evaluate: 
@@ -573,7 +573,7 @@ The `SetContext` step updates the browser context / emulation settings.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`context`*    | Context object containing headers, cookies, etc. | `Context Object` | `undefined`
+**`context`**    | Context object containing headers, cookies, etc. | `Context Object` | `undefined`
 
 ```yaml
 - setContext:
@@ -597,7 +597,7 @@ The `snap` step takes a screenshot of the current page and saves it into the loc
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`filename`*    | The filename to save the screenshot as. | `string` | `undefined`
+**`filename`**    | The filename to save the screenshot as. | `string` | `undefined`
 
 ```yaml
 - snap: test.png
@@ -609,7 +609,7 @@ The `pdf` step saves the current page as a PDF into the local filesystem, relati
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`filename`*    | The filename to save the PDF as. | `string` | `undefined`
+**`filename`**    | The filename to save the PDF as. | `string` | `undefined`
 
 ```yaml
 - pdf: test.pdf
@@ -629,7 +629,9 @@ The `assert` Step allows you to perform runtime assertions with Javascript expre
 
 ### if & unless
 
-The `if` and `unless` optional attributes can be specified in a Step to perform conditional execution. Pass in a Javascript expression that returns a boolean like so:
+The `if` and `unless` optional attributes can be specified in a Step to perform conditional execution. 
+
+> Pass in a Javascript expression that returns a `boolean`.
 
 ```yaml
 - click: 
@@ -637,7 +639,7 @@ The `if` and `unless` optional attributes can be specified in a Step to perform 
   if: ${someValue} === "submit"
 ```
 
-> The `click` Step will be executed only `if` the expression `${someValue} === "submit"` evaluates to `true`.
+> The `click` Step above will be executed only `if` the expression `${someValue} === "submit"` evaluates to `true`.
 
 You can reference variables from the Variable Store within your Expression.
 
@@ -650,7 +652,7 @@ Property | Description | Type | Default
 
 ## Get Involved
 
-Documentation, bug reports, pull requests, and all other contributions are welcome!
+WAML is an evolving spec. [Documentation](https://github.com/waml-lang/waml/wiki), [bug reports](https://github.com/waml-lang/waml/issues), [pull requests](https://github.com/waml-lang/waml/pulls), and all other contributions are welcome!
 
 ## Thanks
 
