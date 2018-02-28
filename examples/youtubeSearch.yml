@@ -11,7 +11,7 @@ steps:
   - click: button#search-icon-legacy
   - wait:
       selector: 'ytd-thumbnail.ytd-video-renderer'
-  - screenshot
+  - snap: foo.png
   - click: # Expanded version of click
       selector: 'ytd-thumbnail.ytd-video-renderer'
       index: 2 # click 3rd video from the list
@@ -19,4 +19,4 @@ steps:
       selector: '.html5-video-container'
   - wait:
       timeout: 5000
-  - screenshot
+  - snap: bar.png

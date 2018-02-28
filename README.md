@@ -23,7 +23,7 @@ steps:
       value: Ugandan knuckles
   - click: a#search
   - wait
-  - screenshot
+  - snap: foo.png
 ```
 
 WAML documents are represented in either YAML or JSON formats. These documents may be written manually or generated dynamically from an application (such as a browser extension.) WAML is both human and machine-readable.
@@ -60,6 +60,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Variables](#3-variables)
   * [Context](#4-context)
   * [Steps](#5-steps)
+* [Variable Store](#variable-store)  
 * [Step Library](#step-library)
   * [Visit](#visit)
   * [Click](#click)
@@ -76,7 +77,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Scrape](#scrape)
   * [Evaluate](#evaluate)
   * [SetContext](#setcontext)
-  * [Screenshot](#screenshot)
+  * [Snap](#snap)
+* [Flow Control](#flow-control) 
 
 ## Terminology
 
@@ -141,7 +143,8 @@ steps:
       viewport:
         height: 400
         width: 300
-  - screenshot: test.png
+  - snap: test.png
+  - pdf: test.pdf
 ```
 
 ## Fields
@@ -191,8 +194,8 @@ description | `string` | A short summary of the flow.
 
 ### 3. Variables
 
-The Variables field stores variables used in the `steps` field.
-You can store any key-value pairs. Values must be a literal value (`string`, `number`, or `boolean`) and must not be nested.
+The Variables field stores variables usable elsewhere in the Flow, such as in the `steps` field.
+You can store any key-value pairs. Values must be a literal value (`string`, `number`, or `boolean`).
 
 The use of variables and the `variables` field is optional.
 
@@ -202,7 +205,7 @@ variables: # A mapping of variables to be defined in the flow context
   isMobile: true
 ```
 
-You can reference any pre-defined variables with the `${variable}` syntax.
+> You can reference any pre-defined variables with the `${variable}` syntax.
 
 ```yaml
 steps:
@@ -262,7 +265,7 @@ steps: # A sequence of user interactions
       value: Ugandan knuckles
   - click: a#search # Click an HTML element
   - wait # Wait for a page load to finish
-  - screenshot # Take screenshot of the page
+  - snap: foo.png # Take screenshot of the page
 ```
 
 #### Note: Compact and Expanded versions
@@ -285,6 +288,36 @@ But you can also use the expanded version of `click` to specify a target from a 
     index: 2 # click 3rd element from a list
 ```
 
+## Variable Store
+
+The variable store is an ephemeral, mutable key-value store for reading and storing values to be used elsewhere in the Flow. At the start of a Flow, the variable store can be initialized through the `variables` field:
+
+```yaml
+variables:
+  someValue: Hello world
+  isMobile: true
+```
+
+> Certain Steps - such as `scrape` and `evaluate` - can write to the variable store by specifying the `as:` step attribute:
+
+```yaml
+- scrape:
+    selector: input#search
+    attr: value
+    as: someValue # Key to write to in ephemeral data store
+```
+
+> Variables can be read using the `${}` syntax:
+  
+```yaml
+steps:
+  - fill:
+      selector: input#search
+      value: ${someValue}
+```
+
+At the end of a WAML flow, the contents of the variable store SHOULD be returned.
+
 ## Step Library
 
 The table below lists the step types available in WAML:
@@ -305,8 +338,9 @@ Step Name | Description
 [forward](#forward)  | Move forward in the browser history.
 [scrape](#scrape)  | Scrape the HTML document for specified elements and attributes.
 [evaluate](#evaluate) | Evaluate an expression in the page context.
+[assert](#assert)  | Evaluates a runtime assertion. Aborts the flow if `false`.
 [setContext](#setcontext) | Modify browser context / emulation settings.
-[screenshot](#screenshot)  | Take a screenshot of the page.
+[snap](#snap)  | Take a screenshot of the page.
 
 > Properties marked with a `*` suffix is **required**.
 
@@ -322,11 +356,11 @@ The `visit` step navigates to a specified URL.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`url`*    | The URL to navigate. Must be prefixed with `http://` or `https://` protocols. | `string` | `undefined`
+`url`*    | The URL to navigate. Must be prefixed with either `http://` or `https://`. | `string` | `undefined`
 
 ### Click
 
-The `click` step clicks to a specified HTML element by [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+The `click` step clicks a specified HTML element by [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 If there are multiple elements satisfying the selector, the first will be clicked.
 
 ```yaml
@@ -380,7 +414,7 @@ Property | Description | Type | Default
 
 The `select` step focuses over a specified dropdown element and selects one or more values.
 
-If the `<select>` has the `multiple` attribute, all values are considered, otherwise only the first one is taken into account.
+If the `<select>` HTML element has the `multiple` attribute, all values are considered, otherwise only the first one is taken into account.
 
 ```yaml
 - select:
@@ -406,7 +440,7 @@ Property | Description | Type | Default
 
 ### Fill
 
-The `fill` step types a string of text into a focused HTML element.
+The `fill` step types a string of text into a focused HTML element, usually form inputs.
 
 ```yaml
 - fill:
@@ -437,7 +471,7 @@ Property | Description | Type | Default
 
 ### Press
 
-The `press` step types special characters.
+The `press` step types special keys such as `Shift` and `Enter`.
 
 ```yaml
 - press: ArrowLeft
@@ -476,7 +510,7 @@ The `refresh` step refreshes the current page.
 
 ### Back
 
-The `back` step moves the current page back in the browser navigation history.
+The `back` step moves the current page backward in browser navigation history.
 
 ```yaml
 - back
@@ -484,7 +518,7 @@ The `back` step moves the current page back in the browser navigation history.
 
 ### Forward
 
-The `forward` step moves the current page forward in the browser navigation history.
+The `forward` step moves the current page forward in browser navigation history.
 
 ```yaml
 - forward
@@ -506,8 +540,8 @@ The `scrape` step lets extract and evaluate attributes and HTML elements of the 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
 `selector`*    | The CSS selector of an HTML element. | `string` | `undefined`
-`attr`    | Element attribute to extractm e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
-`as`    | Key in an ephemeral storage to save results to. | `string` | `undefined`
+`attr`    | Element attribute to extract e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
+`as`*    | Key in variable storage to save results under. | `string` | `undefined`
 
 
 ### Evaluate
@@ -516,12 +550,22 @@ The `evaluate` step takes a Javascript expression and evaluates it in the curren
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`expression`*    | Javascript Expression. | `string` | `undefined`
+`expression`*    | Javascript expression. | `Expression` | `undefined`
+`as`*    | Key in variable storage to save results under. | `string` | `undefined`
 
 ```yaml
-- evaluate: window.location.href
+- evaluate: 
+    expression: window.location.href
+    as: pageUrl
 ```
 
+> You can reference variables in the `evaluate` `expression`:
+
+```yaml
+- evaluate: 
+    expression: ${pageUrl} === ${homepageUrl}
+    as: isOnHomepage
+```
 
 ### SetContext
 
@@ -547,17 +591,55 @@ Property | Description | Type | Default
     timeout: 5
 ```
 
-### Screenshot
+### Snap
 
-The `screenshot` step takes a screenshot of the current page and saves it into the local filesystem, relative to current working directory.
+The `snap` step takes a screenshot of the current page and saves it into the local filesystem, relative to current working directory.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-`name`*    | The filename to save the screenshot as. | `string` | `undefined`
+`filename`*    | The filename to save the screenshot as. | `string` | `undefined`
 
 ```yaml
-- screenshot: test.png
+- snap: test.png
 ```
+
+### PDF
+
+The `pdf` step saves the current page as a PDF into the local filesystem, relative to current working directory.
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+`filename`*    | The filename to save the PDF as. | `string` | `undefined`
+
+```yaml
+- pdf: test.pdf
+```
+
+## Flow Control
+
+WAML provides the following flow control abstractions:
+
+### assert
+
+The `assert` Step allows you to perform runtime assertions with Javascript expressions. WAML implementations SHOULD abort a WAML Flow with a failure reason if the assertion evaluates to `false`.
+
+```yaml
+- assert: {isMobile} === false
+```
+
+### if & unless
+
+The `if` and `unless` optional attributes can be specified in a Step to perform conditional execution. Pass in a Javascript expression that returns a boolean like so:
+
+```yaml
+- click: 
+    selector: a#search
+    if: ${someValue} === "submit"
+```
+
+> The `click` Step will be executed only `if` the expression `${someValue} === "submit"` evaluates to `true`.
+
+You can reference variables from the Variable Store within your Expression.
 
 ## Get Involved
 

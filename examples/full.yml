@@ -50,4 +50,5 @@ steps: # A sequence of user interactions
       viewport:
         height: 400
         width: 300      
-  - screenshot: test.png # Take screenshot of the page
+  - snap: test.png # Take screenshot of the page
+  - pdf: test.pdf # Save page as PDF

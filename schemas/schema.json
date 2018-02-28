@@ -14,16 +14,16 @@
       ]
     },
     "info": {
-      "description": "General information about the flow.",
+      "description": "General information about the Flow.",
       "type": "object",
       "properties": {
-        "name": { "description": "The name of the flow.", "type": "string" },
-        "description": { "description": "A short summary of the flow.", "type": "string" }
+        "name": { "description": "The name of the Flow.", "type": "string" },
+        "description": { "description": "A short summary of the Flow.", "type": "string" }
       },
       "additionalProperties": false
     },
     "variables": {
-      "description": "Stores variables used in the flow.",
+      "description": "Stores variables in the variable store, to be used elsewhere in the Flow.",
       "type": "object",
       "additionalProperties": { "type": ["string", "number", "boolean"] }
     },  
@@ -31,7 +31,7 @@
       "$ref": "#/definitions/Context"
     },
     "steps": {
-      "description": "A sequence of one or more steps (a 'flow'.)",
+      "description": "A sequence of one or more steps (a sequence of web automation steps is defined as a 'Flow'.)",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -72,6 +72,9 @@
         "timeout": { "description": "The maximum navigation time in milliseconds.", "type": "integer", "minimum": 0 }
       },
       "additionalProperties": false
+    },
+    "Expression": { 
+      "type": "string"
     },
     "Step": {
       "description": "A step represents a single user interaction.",
@@ -119,15 +122,21 @@
           "$ref": "#/definitions/EvaluateStep"
         },
         {
+          "$ref": "#/definitions/AssertStep"
+        },
+        {
           "$ref": "#/definitions/SetContextStep"
         },
         {
-          "$ref": "#/definitions/ScreenshotStep"
+          "$ref": "#/definitions/SnapStep"
+        },
+        {
+          "$ref": "#/definitions/PDFStep"
         }
       ]
     },
     "VisitStep": {
-      "description": "Navigate to a specifie URL.",
+      "description": "Navigate to a specified URL.",
       "type": "object",
       "properties": {
         "visit": { "type": "string", "format": "uri" }
@@ -179,7 +188,7 @@
       "additionalProperties": false
     },
     "FillStep": {
-      "description": "Focus an type a string into an input element.",
+      "description": "Focus and type a string into an input element.",
       "type": "object",
       "properties": {
         "fill": { 
@@ -232,12 +241,12 @@
       "enum": ["refresh"]
     },
     "BackStep": {
-      "description": "Move backward in the browser history.",
+      "description": "Move backward in browser history.",
       "type": "string",
       "enum": ["back"]
     },
     "ForwardStep": {
-      "description": "Move forward in the browser history.",
+      "description": "Move forward in browser history.",
       "type": "string",
       "enum": ["forward"]
     },
@@ -252,23 +261,40 @@
             "attr": { "type": "string" },
             "as": { "type": "string" }
           },
-          "required": ["selector", "attr"],
+          "required": ["selector", "as"],
           "additionalProperties": false
         }
       },
       "additionalProperties": false
     },
     "EvaluateStep": {
-      "description": "Evaluates a Javascript expression in the current page context.",
+      "description": "Evaluate a Javascript expression in the current page context.",
       "type": "object",
       "properties": {
-        "evaluate": { "type": "string" }
+        "evaluate": { 
+          "type": "object",
+          "properties": {
+            "expression": { "$ref": "#/definitions/Expression" },
+            "as": { "type": "string" }
+          },
+          "required": ["expression", "as"],
+          "additionalProperties": false
+        }
       },
       "required": ["evaluate"],
       "additionalProperties": false
     },
+    "AssertStep": {
+      "description": "Perform a runtime assertion. Aborts the flow if the supplied expression evaluates to false.",
+      "type": "object",
+      "properties": {
+        "assert": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["assert"],
+      "additionalProperties": false
+    },
     "SetContextStep": {
-      "description": "Modifies the current browser context.",
+      "description": "Modify the current browser context.",
       "type": "object",
       "properties": {
         "setContext": { 
@@ -277,13 +303,22 @@
       },
       "additionalProperties": false
     },
-    "ScreenshotStep": {
-      "description": "Take a screenshot of the page.",
+    "SnapStep": {
+      "description": "Take a screenshot of the current page.",
       "type": "object",
       "properties": {
-        "screenshot": { "type": "string" }
+        "snap": { "type": "string" }
       },
-      "required": ["screenshot"],
+      "required": ["snap"],
+      "additionalProperties": false
+    },
+    "PDFStep": {
+      "description": "Save the current page as a PDF document.",
+      "type": "object",
+      "properties": {
+        "pdf": { "type": "string" }
+      },
+      "required": ["pdf"],
       "additionalProperties": false
     }
   }
