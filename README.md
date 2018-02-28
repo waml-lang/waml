@@ -78,7 +78,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Evaluate](#evaluate)
   * [SetContext](#setcontext)
   * [Snap](#snap)
-* [Flow Control](#flow-control) 
+* [Flow Control](#flow-control)
 
 ## Terminology
 
@@ -139,7 +139,7 @@ steps:
       attr: value
       as: myKey
   - evaluate: window.location.href
-  - setContext: 
+  - setContext:
       viewport:
         height: 400
         width: 300
@@ -308,7 +308,7 @@ variables:
 ```
 
 > Variables can be read using the `${}` syntax:
-  
+
 ```yaml
 steps:
   - fill:
@@ -316,7 +316,7 @@ steps:
       value: ${someValue}
 ```
 
-At the end of a WAML flow, the contents of the variable store SHOULD be returned.
+At the end of a WAML flow, the contents of the variable store should be returned and the variable store cleared.
 
 ## Step Library
 
@@ -554,7 +554,7 @@ Property | Description | Type | Default
 **`as`**    | Key in variable storage to save results under. | `string` | `undefined`
 
 ```yaml
-- evaluate: 
+- evaluate:
     expression: window.location.href
     as: pageUrl
 ```
@@ -562,7 +562,7 @@ Property | Description | Type | Default
 > You can reference variables in the `evaluate` `expression`:
 
 ```yaml
-- evaluate: 
+- evaluate:
     expression: ${pageUrl} === ${homepageUrl}
     as: isOnHomepage
 ```
@@ -629,12 +629,12 @@ The `assert` Step allows you to perform runtime assertions with Javascript expre
 
 ### if & unless
 
-The `if` and `unless` optional attributes can be specified in a Step to perform conditional execution. 
+The `if` and `unless` optional attributes can be specified in a Step to perform conditional execution.
 
 > Pass in a Javascript expression that returns a `boolean`.
 
 ```yaml
-- click: 
+- click:
     selector: a#search
   if: ${someValue} === "submit"
 ```
