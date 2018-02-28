@@ -139,7 +139,9 @@
       "description": "Navigate to a specified URL.",
       "type": "object",
       "properties": {
-        "visit": { "type": "string", "format": "uri" }
+        "visit": { "type": "string", "format": "uri" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["visit"],
       "additionalProperties": false
@@ -148,7 +150,9 @@
       "description": "Click an element.",
       "type": "object",
       "properties": {
-        "click": { "type": "string" }
+        "click": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["click"],
       "additionalProperties": false
@@ -157,7 +161,9 @@
       "description": "Hover over an element.",
       "type": "object",
       "properties": {
-        "hover": { "type": "string" }
+        "hover": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["hover"],
       "additionalProperties": false
@@ -166,7 +172,9 @@
       "description": "Focus to an element.",
       "type": "object",
       "properties": {
-        "focus": { "type": "string" }
+        "focus": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["focus"],
       "additionalProperties": false
@@ -183,7 +191,9 @@
           },
           "required": ["selector", "value"],
           "additionalProperties": false
-        }
+        },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "additionalProperties": false
     },
@@ -199,7 +209,9 @@
           },
           "required": ["selector", "value"],
           "additionalProperties": false
-        }
+        },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "additionalProperties": false
     },
@@ -207,7 +219,9 @@
       "description": "Type a string of characters.",
       "type": "object",
       "properties": {
-        "type": { "type": "string" }
+        "type": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["type"],
       "additionalProperties": false
@@ -216,39 +230,56 @@
       "description": "Type a special key, such as Shift and Enter.",
       "type": "object",
       "properties": {
-        "press": { "type": "string" }
+        "press": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["press"],
       "additionalProperties": false
     },
     "WaitStep": {
       "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
-      "oneOf": [
-        { 
-          "type": "object",
-          "properties": {
-            "wait": { "type": ["string", "integer"] }
-          },
-          "required": ["wait"],
-          "additionalProperties": false 
-        },
-        { "type": "string", "enum": ["wait"] }
-      ]
+      "type": "object",
+      "properties": {
+        "wait": { "type": ["string", "integer"] },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["wait"],
+      "additionalProperties": false
     },
     "RefreshStep": {
       "description": "Refresh the current page.",
-      "type": "string",
-      "enum": ["refresh"]
+      "type": "object",
+      "properties": {
+        "refresh": { "type": "string", "enum": [null] },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["refresh"],
+      "additionalProperties": false
     },
     "BackStep": {
       "description": "Move backward in browser history.",
-      "type": "string",
-      "enum": ["back"]
+      "type": "object",
+      "properties": {
+        "back": { "type": "string", "enum": [null] },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["back"],
+      "additionalProperties": false
     },
     "ForwardStep": {
       "description": "Move forward in browser history.",
-      "type": "string",
-      "enum": ["forward"]
+      "type": "object",
+      "properties": {
+        "forward": { "type": "string", "enum": [null] },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["forward"],
+      "additionalProperties": false
     },
     "ScrapeStep": {
       "description": "Scrape the HTML document for specified elements and attributes.",
@@ -263,8 +294,11 @@
           },
           "required": ["selector", "as"],
           "additionalProperties": false
-        }
+        },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
+      "required": ["scrape"],
       "additionalProperties": false
     },
     "EvaluateStep": {
@@ -279,7 +313,9 @@
           },
           "required": ["expression", "as"],
           "additionalProperties": false
-        }
+        },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["evaluate"],
       "additionalProperties": false
@@ -288,7 +324,9 @@
       "description": "Perform a runtime assertion. Aborts the flow if the supplied expression evaluates to false.",
       "type": "object",
       "properties": {
-        "assert": { "$ref": "#/definitions/Expression" }
+        "assert": { "$ref": "#/definitions/Expression" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["assert"],
       "additionalProperties": false
@@ -299,15 +337,20 @@
       "properties": {
         "setContext": { 
           "$ref": "#/definitions/Context"
-        }
+        },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
+      "required": ["setContext"],
       "additionalProperties": false
     },
     "SnapStep": {
       "description": "Take a screenshot of the current page.",
       "type": "object",
       "properties": {
-        "snap": { "type": "string" }
+        "snap": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["snap"],
       "additionalProperties": false
@@ -316,7 +359,9 @@
       "description": "Save the current page as a PDF document.",
       "type": "object",
       "properties": {
-        "pdf": { "type": "string" }
+        "pdf": { "type": "string" },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["pdf"],
       "additionalProperties": false

@@ -19,7 +19,7 @@ context: # Browser emulation settings
     - cookieName: cookieValue
   mediaType: screen # screen / print / none
   userAgent: myUserAgent # Browser user agent
-  device: 'iPhone4' # List from https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
+  device: iPhone4 # List from https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
   timeout: 5 # Maximum navigation time
 
 steps: # A sequence of user interactions
@@ -37,10 +37,10 @@ steps: # A sequence of user interactions
   - press: Shift # Type a special key, like Shift
   - wait: div#results # Selector of an element to wait for
   - wait: 3000 # Time to wait
-  - wait # Wait for a page load to finish
-  - refresh # Reload the current page
-  - back # Go backwards in the browser history
-  - forward # Go forwards in the browser history
+  - wait: # Wait for a page load to finish
+  - refresh: # Reload the current page
+  - back: # Go backwards in the browser history
+  - forward: # Go forwards in the browser history
   - scrape: # Scrape data from the HTML document
       selector: input#search # can be single or multiple
       attr: value # Element attribute to scrape el.value / el.href / el.outerHTML (Optional, defaults to element outerHTML)

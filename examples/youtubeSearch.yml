@@ -9,14 +9,11 @@ steps:
       selector: '#search'
       value: innerText
   - click: button#search-icon-legacy
-  - wait:
-      selector: 'ytd-thumbnail.ytd-video-renderer'
+  - wait: ytd-thumbnail.ytd-video-renderer
   - snap: foo.png
   - click: # Expanded version of click
-      selector: 'ytd-thumbnail.ytd-video-renderer'
+      selector: ytd-thumbnail.ytd-video-renderer
       index: 2 # click 3rd video from the list
-  - wait:
-      selector: '.html5-video-container'
-  - wait:
-      timeout: 5000
+  - wait: .html5-video-container
+  - wait: 5000
   - snap: bar.png

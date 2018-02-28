@@ -22,7 +22,7 @@ steps:
       selector: input#search
       value: Ugandan knuckles
   - click: a#search
-  - wait
+  - wait: 10
   - snap: foo.png
 ```
 
@@ -112,7 +112,7 @@ context:
     - cookieName: cookieValue
   mediaType: screen
   userAgent: myUserAgent
-  device: 'iPhone4'
+  device: iPhone4
   timeout: 5
 
 steps:
@@ -130,10 +130,10 @@ steps:
   - press: Shift
   - wait: div#results
   - wait: 3000
-  - wait
-  - refresh
-  - back
-  - forward
+  - wait:
+  - refresh:
+  - back:
+  - forward:
   - scrape:
       selector: input#search
       attr: value
@@ -490,7 +490,7 @@ The `wait` step lets you wait by a specified interval, for an HMTL element to lo
 ```yaml
 - wait: div#results # Selector of an element to wait for
 - wait: 3000 # Time to wait
-- wait # Wait for a page load to finish
+- wait: # Wait for a page load to finish
 ```
 
 ##### Params
@@ -634,12 +634,19 @@ The `if` and `unless` optional attributes can be specified in a Step to perform 
 ```yaml
 - click: 
     selector: a#search
-    if: ${someValue} === "submit"
+  if: ${someValue} === "submit"
 ```
 
 > The `click` Step will be executed only `if` the expression `${someValue} === "submit"` evaluates to `true`.
 
 You can reference variables from the Variable Store within your Expression.
+
+#### Params
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+`if`    | If set, the step is only executed if the value evaluates to `true`. | `Expression` | `undefined`
+`unless`    | If set, the step is only executed if the value evaluates to `false`. | `Expression` | `undefined`
 
 ## Get Involved
 

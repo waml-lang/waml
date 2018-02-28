@@ -6,5 +6,5 @@ steps: # A sequence of user interactions
       selector: input#search
       value: Ugandan knuckles
   - click: a#search # Click an HTML element
-  - wait # Wait for a page load to finish
+  - wait: # Wait for a page load to finish
   - snap: test.png # Take screenshot of the page

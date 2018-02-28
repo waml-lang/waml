@@ -5,7 +5,7 @@ info: # https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/ge
 
 steps:
   - visit: https://news.ycombinator.com/news
-  - scrape
+  - scrape:
       selector: a.storylink
       attr: textContent
-      saveAs: hackerNewsTitles
+      as: hackerNewsTitles
