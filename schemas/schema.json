@@ -75,6 +75,7 @@
       "type": "string"
     },
     "Step": {
+      "type": "object",
       "description": "A step represents a single user interaction.",
       "oneOf": [
         {
@@ -148,7 +149,20 @@
       "description": "Click an element.",
       "type": "object",
       "properties": {
-        "click": { "type": "string" },
+        "click": { 
+          "oneOf": [
+            { 
+              "type": "string" 
+            },
+            { 
+              "type": "object",
+              "properties": {
+                "selector": { "type": "string" },
+                "index": { "type": "integer", "minimum": 0 }
+              }
+            }
+          ]
+        },
         "if": { "$ref": "#/definitions/Expression" },
         "unless": { "$ref": "#/definitions/Expression" }
       },
@@ -185,7 +199,7 @@
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
-            "value": { "type": "string" }
+            "value": { "type": ["string", "array"], "items": { "type": "string" }, "minItems": 1 }
           },
           "required": ["selector", "value"],
           "additionalProperties": false
