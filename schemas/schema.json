@@ -24,7 +24,7 @@
       "description": "Stores variables in the variable store, to be used elsewhere in the Flow.",
       "type": "object",
       "additionalProperties": { "type": ["string", "number", "boolean"] }
-    },  
+    },
     "context": {
       "$ref": "#/definitions/Context"
     },
@@ -53,14 +53,14 @@
           },
           "additionalProperties": false
         },
-        "headers": { 
+        "headers": {
           "description": "The browser's HTTP headers.",
           "type": "object",
           "additionalProperties": { "type": "string" }
         },
-        "cookies": { 
+        "cookies": {
           "description": "The browser's cookies.",
-          "type": "array", 
+          "type": "array",
           "items": { "type": "object" },
           "uniqueItems": true
         },
@@ -71,7 +71,7 @@
       },
       "additionalProperties": false
     },
-    "Expression": { 
+    "Expression": {
       "type": "string"
     },
     "Step": {
@@ -149,12 +149,12 @@
       "description": "Click an element.",
       "type": "object",
       "properties": {
-        "click": { 
+        "click": {
           "oneOf": [
-            { 
-              "type": "string" 
+            {
+              "type": "string"
             },
-            { 
+            {
               "type": "object",
               "properties": {
                 "selector": { "type": "string" },
@@ -195,7 +195,7 @@
       "description": "Focus and select one or more values from a dropdown element.",
       "type": "object",
       "properties": {
-        "select": { 
+        "select": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -213,7 +213,7 @@
       "description": "Focus and type a string into an input element.",
       "type": "object",
       "properties": {
-        "fill": { 
+        "fill": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -253,7 +253,7 @@
       "description": "Wait for a specified interval, for an element to load, or for a page load to finish.",
       "type": "object",
       "properties": {
-        "wait": { "type": ["string", "integer"] },
+        "wait": { "type": ["string", "integer", "null"] },
         "if": { "$ref": "#/definitions/Expression" },
         "unless": { "$ref": "#/definitions/Expression" }
       },
@@ -297,7 +297,7 @@
       "description": "Scrape the HTML document for specified elements and attributes.",
       "type": "object",
       "properties": {
-        "scrape": { 
+        "scrape": {
           "type": "object",
           "properties": {
             "selector": { "type": "string" },
@@ -317,7 +317,7 @@
       "description": "Evaluate a Javascript expression in the current page context.",
       "type": "object",
       "properties": {
-        "evaluate": { 
+        "evaluate": {
           "type": "object",
           "properties": {
             "expression": { "$ref": "#/definitions/Expression" },
@@ -347,7 +347,7 @@
       "description": "Modify the current browser context.",
       "type": "object",
       "properties": {
-        "setContext": { 
+        "setContext": {
           "$ref": "#/definitions/Context"
         },
         "if": { "$ref": "#/definitions/Expression" },
