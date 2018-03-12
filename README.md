@@ -35,15 +35,13 @@ WAML documents are represented in either YAML or JSON formats. These documents m
 The WAML specification can be used to define flows for:
 
 * Web scraping / data extraction
-  * Track changes on a web page (price drops, new releases)
+  * Content monitoring (Online review monitoring, competitor monitoring, price drops, new releases)
+  * Content aggregation (Business profile data, leads, jobs, news, events)
   * Turning websites into APIs
-  * Content aggregation
-  * Online review monitoring
-  * Lead generation
 * Web automation
   * Integration end-to-end testing
   * Uptime monitoring
-  * Evaluating web best practices
+  * Evaluating web best practices (SEO, HTML best practices)
 
 
 # WAML Specification
@@ -86,7 +84,7 @@ A WAML document represents a single *Flow*: a sequence of *Steps* in a specified
 
 A WAML document consists of many *Fields*.
 
-## Full Example
+## Full Kitchen Sink Example
 
 Here is an example WAML document which exercises all possible fields and options.
 
