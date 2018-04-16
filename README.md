@@ -1,7 +1,7 @@
 
 # WAML
 
-![](https://i.imgur.com/KIUsDDn.png?1)
+![](https://i.imgur.com/ItWr0HO.png)
 
 Web Automation Markup Language.
 
