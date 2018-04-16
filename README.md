@@ -622,7 +622,7 @@ WAML provides the following flow control abstractions:
 The `assert` Step allows you to perform runtime assertions with Javascript expressions. WAML implementations SHOULD abort a WAML Flow with a failure reason if the assertion evaluates to `false`.
 
 ```yaml
-- assert: {isMobile} === false
+- assert: ${isMobile} === false
 ```
 
 ### if & unless
