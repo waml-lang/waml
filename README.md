@@ -25,7 +25,9 @@ steps:
       value: Ugandan knuckles
   - click: a#search
   - wait: 10
-  - snap: foo.png
+  - snap:
+      filename: test
+      format: png
 ```
 
 WAML documents are represented in either YAML or JSON formats. These documents may be written manually or generated dynamically from an application (such as a browser extension.) WAML is both human and machine-readable.
@@ -141,8 +143,10 @@ steps:
       viewport:
         height: 400
         width: 300
-  - snap: test.png
-  - pdf: test.pdf
+  - snap:
+      filename: test
+      format: png
+  - pdf: test
 ```
 
 ## Fields
@@ -263,7 +267,9 @@ steps: # A sequence of user interactions
       value: Ugandan knuckles
   - click: a#search # Click an HTML element
   - wait # Wait for a page load to finish
-  - snap: foo.png # Take screenshot of the page
+  - snap: # Take screenshot of the page
+      filename: foo
+      format: png
 ```
 
 #### Note: Compact and Expanded versions
@@ -591,14 +597,19 @@ Property | Description | Type | Default
 
 ### Snap
 
-The `snap` step takes a screenshot of the current page and saves it into the local filesystem, relative to current working directory.
+The `snap` step takes a screenshot of the current page and saves it into the local filesystem or a cloud storage.
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-**`filename`**    | The filename to save the screenshot as. | `string` | `undefined`
+**`filename`**    | The filename to save the image as. | `string` | `undefined`
+`format`    | The format to save the image as. PNG and JPG formats supported. | `string` | `png`
+`fullPage`    | If set to true, takes a screenshot of the full scrollable page. | `boolean` | `false`
 
 ```yaml
-- snap: test.png
+- snap: # Take screenshot of the page
+    filename: my-image
+    format: png
+    fullPage: true
 ```
 
 ### PDF
@@ -610,7 +621,7 @@ Property | Description | Type | Default
 **`filename`**    | The filename to save the PDF as. | `string` | `undefined`
 
 ```yaml
-- pdf: test.pdf
+- pdf: my-pdf
 ```
 
 ## Flow Control

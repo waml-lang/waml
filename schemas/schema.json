@@ -360,7 +360,16 @@
       "description": "Take a screenshot of the current page.",
       "type": "object",
       "properties": {
-        "snap": { "type": "string" },
+        "snap": {
+          "type": "object",
+          "properties": {
+            "filename": { "type": "string" },
+            "format": { "type": "string", "enum": ["png", "jpg"] },
+            "fullPage": { "type": "boolean" }
+          },
+          "required": ["filename"],
+          "additionalProperties": false
+        },
         "if": { "$ref": "#/definitions/Expression" },
         "unless": { "$ref": "#/definitions/Expression" }
       },

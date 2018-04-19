@@ -16,4 +16,7 @@ steps:
       index: 2 # click 3rd video from the list
   - wait: .html5-video-container
   - wait: 5000
-  - snap: bar.png
+  - snap: # Take screenshot of the page
+      filename: test
+      format: png
+      fullPage: false
