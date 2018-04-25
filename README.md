@@ -69,6 +69,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Select](#select)
   * [Fill](#fill)
   * [Type](#type)
+  * [Scroll](#scroll)
   * [Press](#press)
   * [Wait](#wait)
   * [Refresh](#refresh)
@@ -128,6 +129,9 @@ steps:
       value: Ugandan knuckles
   - type: ${someValue}
   - press: Shift
+  - scroll: 100
+  - scroll: a#load-more
+  - scroll:
   - wait: div#results
   - wait: 3000
   - wait:
@@ -486,6 +490,22 @@ The `press` step types special keys such as `Shift` and `Enter`.
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
 **`key`**    | Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout](https://github.com/GoogleChrome/puppeteer/blob/v1.0.0/lib/USKeyboardLayout.js) for a list of all key names. | `string` | `undefined`
+
+### Scroll
+
+The `scroll` step scrolls the browser's viewport by a specified number of pixels, a specified HTML element, or to the bottom of the page (for infinite scrolls.)
+
+```yaml
+- scroll: 100 # Scroll 100 pixels
+- scroll: a#load-more # Scroll to HTML element
+- scroll: # Infinite scroll
+```
+
+##### Params
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+**`value`**    | Integer, CSS selector, or 'infinite'-ly. | `string` or `integer` | `undefined`
 
 ### Wait
 

@@ -35,6 +35,9 @@ steps: # A sequence of user interactions
       value: Ugandan knuckles
   - type: ${someValue} # Types words, also: references custom.someValue
   - press: Shift # Type a special key, like Shift
+  - scroll: 100 # Scroll 100 pixels
+  - scroll: a#load-more # Scroll to HTML element
+  - scroll: # Infinite scroll
   - wait: div#results # Selector of an element to wait for
   - wait: 3000 # Time to wait
   - wait: # Wait for a page load to finish

@@ -103,6 +103,9 @@
           "$ref": "#/definitions/PressStep"
         },
         {
+          "$ref": "#/definitions/ScrollStep"
+        },
+        {
           "$ref": "#/definitions/WaitStep"
         },
         {
@@ -247,6 +250,17 @@
         "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["press"],
+      "additionalProperties": false
+    },
+    "ScrollStep": {
+      "description": "Scrolls the viewport by N pixels, to an HTML element, or to the bottom of the page.",
+      "type": "object",
+      "properties": {
+        "scroll": { "type": ["string", "integer", "null"] },
+        "if": { "$ref": "#/definitions/Expression" },
+        "unless": { "$ref": "#/definitions/Expression" }
+      },
+      "required": ["scroll"],
       "additionalProperties": false
     },
     "WaitStep": {
