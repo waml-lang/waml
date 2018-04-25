@@ -1,7 +1,7 @@
 waml: 0.1.0 # WAML version
 
 info: # Metadata about the WAML document
-  name: An example WAML document.
+  title: An example WAML document.
   description: High-level summary of the user flow.
 
 variables: # A mapping of variables to be defined in the flow context
@@ -46,10 +46,10 @@ steps: # A sequence of user interactions
       attr: value # Element attribute to scrape el.value / el.href / el.outerHTML (Optional, defaults to element outerHTML)
       as: abc # Key to write to in ephemeral data store
   - evaluate: window.location.href
-  - setContext: 
+  - setContext:
       viewport:
         height: 400
-        width: 300      
+        width: 300
   - snap: # Take screenshot of the page
       filename: test
       format: png

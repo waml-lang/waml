@@ -94,7 +94,7 @@ Here is an example WAML document which exercises all possible fields and options
 waml: 0.1.0
 
 info:
-  name: An example WAML document.
+  title: An example WAML document.
   description: High-level summary of the user flow.
 
 variables:
@@ -183,7 +183,7 @@ The `info` field is optional.
 
 ```yaml
 info: # Metadata about the WAML document
-  name: An example WAML document.
+  title: An example WAML document.
   description: High-level summary of the user flow.
 ```
 
@@ -191,7 +191,7 @@ info: # Metadata about the WAML document
 
 Field Name | Type | Description
 ---|:---:|---
-name | `string` | The name of the flow.
+title | `string` | The title of the flow.
 description | `string` | A short summary of the flow.
 
 ### 3. Variables
