@@ -44,11 +44,14 @@ steps: # A sequence of user interactions
   - refresh: # Reload the current page
   - back: # Go backwards in the browser history
   - forward: # Go forwards in the browser history
-  - scrape: # Scrape data from the HTML document
-      selector: input#search # can be single or multiple
-      attr: value # Element attribute to scrape el.value / el.href / el.outerHTML (Optional, defaults to element outerHTML)
-      as: abc # Key to write to in ephemeral data store
-  - evaluate: window.location.href
+  - scrape:
+      articles:
+        - sm article
+        - body: s .body | rp innerHTML
+          imageUrl: s img | ra src
+          summary: s .body p:first-child | rp innerHTML | f text
+          title: s .title | rp textContent
+      pageName: s .body | rp innerHTML
   - setContext:
       viewport:
         height: 400

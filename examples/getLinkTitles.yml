@@ -6,6 +6,4 @@ info: # https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/ge
 steps:
   - visit: https://news.ycombinator.com/news
   - scrape:
-      selector: a.storylink
-      attr: textContent
-      as: hackerNewsTitles
+      hackerNewsTitles: sm a.storylink | rp textContent

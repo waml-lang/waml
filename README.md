@@ -76,7 +76,6 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
   * [Back](#back)
   * [Forward](#forward)
   * [Scrape](#scrape)
-  * [Evaluate](#evaluate)
   * [SetContext](#setcontext)
   * [Snap](#snap)
 * [Flow Control](#flow-control)
@@ -139,10 +138,13 @@ steps:
   - back:
   - forward:
   - scrape:
-      selector: input#search
-      attr: value
-      as: myKey
-  - evaluate: window.location.href
+      articles:
+        - sm article
+        - body: s .body | rp innerHTML
+          imageUrl: s img | ra src
+          summary: s .body p:first-child | rp innerHTML | f text
+          title: s .title | rp textContent
+      pageName: s .body | rp innerHTML
   - setContext:
       viewport:
         height: 400
@@ -306,15 +308,6 @@ variables:
   isMobile: true
 ```
 
-> Certain Steps - such as `scrape` and `evaluate` - can write to the variable store by specifying the `as:` step attribute:
-
-```yaml
-- scrape:
-    selector: input#search
-    attr: value
-    as: someValue # Key to write to in ephemeral data store
-```
-
 > Variables can be read using the `${}` syntax:
 
 ```yaml
@@ -322,6 +315,19 @@ steps:
   - fill:
       selector: input#search
       value: ${someValue}
+```
+
+> Steps such as `scrape` saves its results into the variable store.
+
+```yaml
+- scrape:
+    articles: # saved as 'articles'
+      - sm article
+      - body: s .body | rp innerHTML
+        imageUrl: s img | ra src
+        summary: s .body p:first-child | rp innerHTML | f text
+        title: s .title | rp textContent
+    pageName: s .body | rp innerHTML # saved as 'pageName'
 ```
 
 At the end of a WAML flow, the contents of the variable store should be returned and the variable store cleared.
@@ -345,7 +351,6 @@ Step Name | Description
 [back](#back)  | Move backward in the browser history.
 [forward](#forward)  | Move forward in the browser history.
 [scrape](#scrape)  | Scrape the HTML document for specified elements and attributes.
-[evaluate](#evaluate) | Evaluate an expression in the page context.
 [assert](#assert)  | Evaluates a runtime assertion. Aborts the flow if `false`.
 [setContext](#setcontext) | Modify browser context / emulation settings.
 [snap](#snap)  | Take a screenshot of the page.
@@ -552,44 +557,24 @@ The `forward` step moves the current page forward in browser navigation history.
 
 The `scrape` step lets extract and evaluate attributes and HTML elements of the current page.
 
+It accepts a DOM extraction expression based on [`surgeon`](https://github.com/gajus/surgeon):
+
 ```yaml
 - scrape: # Scrape data from the HTML document
-    selector: input#search # can be single or multiple
-    attr: value # Element attribute to scrape
-    as: abc # Key to write to in ephemeral data store
+    articles:
+      - sm article
+      - body: s .body | rp innerHTML
+        imageUrl: s img | ra src
+        summary: s .body p:first-child | rp innerHTML | f text
+        title: s .title | rp textContent
+    pageName: s .body | rp innerHTML
 ```
 
 ##### Params
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
-**`selector`**    | The CSS selector of an HTML element. | `string` | `undefined`
-`attr`    | Element attribute to extract e.g. `value`, `href`. Defaults to `outerHTML`| `string` | `outerHTML`
-**`as`**    | Key in variable storage to save results under. | `string` | `undefined`
-
-
-### Evaluate
-
-The `evaluate` step takes a Javascript expression and evaluates it in the current page context.
-
-Property | Description | Type | Default
----------|:-----------:|:----:|--------------
-**`expression`**    | Javascript expression. | `Expression` | `undefined`
-**`as`**    | Key in variable storage to save results under. | `string` | `undefined`
-
-```yaml
-- evaluate:
-    expression: window.location.href
-    as: pageUrl
-```
-
-> You can reference variables in the `evaluate` `expression`:
-
-```yaml
-- evaluate:
-    expression: ${pageUrl} === ${homepageUrl}
-    as: isOnHomepage
-```
+**`DOM extraction expression`**    | An object containing a [declarative DOM extraction expression](https://github.com/gajus/surgeon). | `object` | `undefined`
 
 ### SetContext
 

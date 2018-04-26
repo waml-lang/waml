@@ -121,9 +121,6 @@
           "$ref": "#/definitions/ScrapeStep"
         },
         {
-          "$ref": "#/definitions/EvaluateStep"
-        },
-        {
           "$ref": "#/definitions/AssertStep"
         },
         {
@@ -312,38 +309,12 @@
       "type": "object",
       "properties": {
         "scrape": {
-          "type": "object",
-          "properties": {
-            "selector": { "type": "string" },
-            "attr": { "type": "string" },
-            "as": { "type": "string" }
-          },
-          "required": ["selector", "as"],
-          "additionalProperties": false
+          "type": "object"
         },
         "if": { "$ref": "#/definitions/Expression" },
         "unless": { "$ref": "#/definitions/Expression" }
       },
       "required": ["scrape"],
-      "additionalProperties": false
-    },
-    "EvaluateStep": {
-      "description": "Evaluate a Javascript expression in the current page context.",
-      "type": "object",
-      "properties": {
-        "evaluate": {
-          "type": "object",
-          "properties": {
-            "expression": { "$ref": "#/definitions/Expression" },
-            "as": { "type": "string" }
-          },
-          "required": ["expression", "as"],
-          "additionalProperties": false
-        },
-        "if": { "$ref": "#/definitions/Expression" },
-        "unless": { "$ref": "#/definitions/Expression" }
-      },
-      "required": ["evaluate"],
       "additionalProperties": false
     },
     "AssertStep": {
