@@ -46,12 +46,12 @@ steps: # A sequence of user interactions
   - forward: # Go forwards in the browser history
   - scrape:
       articles:
-        - sm article
-        - body: s .body | rp innerHTML
-          imageUrl: s img | ra src
-          summary: s .body p:first-child | rp innerHTML | f text
-          title: s .title | rp textContent
-      pageName: s .body | rp innerHTML
+        - select article {0,}
+        - body: select .body | get html
+          imageUrl: select img | get attr src
+          summary: select .body p:first-child | get text
+          title: select .title | get text
+      checked: select input[type="checkbox"] | get prop checked
   - setContext:
       viewport:
         height: 400

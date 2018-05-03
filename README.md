@@ -139,12 +139,12 @@ steps:
   - forward:
   - scrape:
       articles:
-        - sm article
-        - body: s .body | rp innerHTML
-          imageUrl: s img | ra src
-          summary: s .body p:first-child | rp innerHTML | f text
-          title: s .title | rp textContent
-      pageName: s .body | rp innerHTML
+        - select article {0,}
+        - body: select .body | get html
+          imageUrl: select img | get attr src
+          summary: select .body p:first-child | get text
+          title: select .title | get text
+      checked: select input[type="checkbox"] | get prop checked
   - setContext:
       viewport:
         height: 400
@@ -321,13 +321,15 @@ steps:
 
 ```yaml
 - scrape:
-    articles: # saved as 'articles'
-      - sm article
-      - body: s .body | rp innerHTML
-        imageUrl: s img | ra src
-        summary: s .body p:first-child | rp innerHTML | f text
-        title: s .title | rp textContent
-    pageName: s .body | rp innerHTML # saved as 'pageName'
+    # saved as 'articles'
+    articles: 
+      - select article {0,}
+      - body: select .body | get html # saved as 'articles[*].body'
+        imageUrl: select img | get attr src
+        summary: select .body p:first-child | get text
+        title: select .title | get text
+    # saved as 'checked'      
+    checked: select input[type="checkbox"] | get prop checked 
 ```
 
 At the end of a WAML flow, the contents of the variable store should be returned and the variable store cleared.
@@ -557,24 +559,92 @@ The `forward` step moves the current page forward in browser navigation history.
 
 The `scrape` step lets extract and evaluate attributes and HTML elements of the current page.
 
-It accepts a DOM extraction expression based on [`surgeon`](https://github.com/gajus/surgeon):
-
-```yaml
-- scrape: # Scrape data from the HTML document
-    articles:
-      - sm article
-      - body: s .body | rp innerHTML
-        imageUrl: s img | ra src
-        summary: s .body p:first-child | rp innerHTML | f text
-        title: s .title | rp textContent
-    pageName: s .body | rp innerHTML
-```
-
 ##### Params
 
 Property | Description | Type | Default
 ---------|:-----------:|:----:|--------------
 **`DOM extraction expression`**    | An object containing a [declarative DOM extraction expression](https://github.com/gajus/surgeon). | `object` | `undefined`
+
+> The `scrape` step accepts as input a declarative DOM extraction expression based on [`surgeon`](https://github.com/gajus/surgeon).
+
+You describe the content you wish to scrape using `select` and `get` keywords.
+
+#### `select`
+
+The `select` subroutine accepts as input a CSS selector (e.g. `.body p:first-child`). It also accepts an optional quantifier for selecting single or multiple matches and specific indexes (e.g. `{0:2}[1]` filters for the first two matches, and picks the second.)
+
+#### `get`
+
+The `get` subroutine accepts as input one of `text`, `html`, `prop`, and `attr` for extracting text, raw HTML content, DOM properties, and HTML attributes respectively. It accepts a third parameter in the case of `prop` and `attr` for the name of the property (e.g. `checked`) or attribute (e.g. `src`) to get.
+
+```yaml
+- scrape:
+    # saved as 'articles'
+    articles:
+      - select article {0,}
+      - body: select .body | get html # saved as 'articles[*].body'
+        imageUrl: select img | get attr src
+        summary: select .body p:first-child | get text
+        title: select .title | get text
+    # saved as 'checked'
+    checked: select input[type="checkbox"] | get prop checked
+```
+
+> The above WAML would produce the following data (assuming that the CSS selectors and content is valid):
+
+```js
+{
+  articles: [
+    {
+      body: ...
+      imageUrl: ...
+      summary: ...
+      title: ...
+    },
+    {
+      body: ...
+      imageUrl: ...
+      summary: ...
+      title: ...
+    }
+  ],
+  checked: ...
+}
+```
+
+#### Nested Data
+
+Subroutines can be nested: HTML elements from a previous level is passed as arguments to the next.
+
+```yaml
+articles:
+  - select article {0,} # Equivalent to document.querySelectAll('article')
+  - body: select .body | get html
+    imageUrl: select img | get attr src
+    summary: select .body p:first-child | get text
+    title: select .title | get text
+```
+
+In the example above:
+
+- The `select` line returns a list of one or more HTML elements with the selector `article`.
+- In the next line, we name and extract `body`, `imageUrl`, `summary`, and `title` by `select`-ing with `document.querySelectAll('article')` as input. For example, `body` will contain `document.querySelectAll('article')[0].querySelector('.body').innerHTML`.
+
+#### The Pipe Operator
+
+You can use the `|` pipe operator to simplify the following expression:
+
+```yaml
+- body:
+  - select .body
+  - get html
+```
+
+Into the following one-liner:
+
+```yaml
+- body: select .body | get html
+```
 
 ### SetContext
 

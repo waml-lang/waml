@@ -6,6 +6,4 @@ info: # https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/ge
 steps:
   - visit: https://news.ycombinator.com/news
   - scrape:
-      selector: .hname > a
-      attr: innerText
-      as: myTitleValue
+      myTitleValue: select '.hname > a' | get text
