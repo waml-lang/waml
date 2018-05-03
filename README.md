@@ -322,14 +322,14 @@ steps:
 ```yaml
 - scrape:
     # saved as 'articles'
-    articles: 
+    articles:
       - select article {0,}
       - body: select .body | get html # saved as 'articles[*].body'
         imageUrl: select img | get attr src
         summary: select .body p:first-child | get text
         title: select .title | get text
     # saved as 'checked'      
-    checked: select input[type="checkbox"] | get prop checked 
+    checked: select input[type="checkbox"] | get prop checked
 ```
 
 At the end of a WAML flow, the contents of the variable store should be returned and the variable store cleared.
@@ -571,11 +571,28 @@ You describe the content you wish to scrape using `select` and `get` keywords.
 
 #### `select`
 
-The `select` subroutine accepts as input a CSS selector (e.g. `.body p:first-child`). It also accepts an optional quantifier for selecting single or multiple matches and specific indexes (e.g. `{0:2}[1]` filters for the first two matches, and picks the second.)
+```
+select '.post-title a' {0,}
+```
+
+The `select` keyword accepts as input a CSS selector (e.g. `.body p:first-child`).
+
+The `select` keyword accepts an optional quantifier. This quantifier is used to select single or multiple CSS selector matches, and to pick specific indexes from the list. For example, `select div {0:2}[1]` selects the first two matches (`{0:2}`), and picks the second (`[1]`) - returning a single element.
 
 #### `get`
 
-The `get` subroutine accepts as input one of `text`, `html`, `prop`, and `attr` for extracting text, raw HTML content, DOM properties, and HTML attributes respectively. It accepts a third parameter in the case of `prop` and `attr` for the name of the property (e.g. `checked`) or attribute (e.g. `src`) to get.
+```
+get attr src
+get prop innerHTML
+get html
+get text
+```
+
+The `get` keyword accepts as input one of `text`, `html`, `prop`, and `attr` for extracting text, raw HTML content, DOM properties, and HTML attributes respectively.
+
+The `get` keyword accepts a name argument in the case of `prop` and `attr`, which specifies the name of the property (e.g. `checked`) or attribute (e.g. `src`) to get.
+
+> Below is an example of both `select` and `get` keywords used together.
 
 ```yaml
 - scrape:
