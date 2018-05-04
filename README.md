@@ -321,14 +321,12 @@ steps:
 
 ```yaml
 - scrape:
-    # saved as 'articles'
     articles:
       - select article {0,}
-      - body: select .body | get html # saved as 'articles[*].body'
+      - body: select .body | get html
         imageUrl: select img | get attr src
         summary: select .body p:first-child | get text
         title: select .title | get text
-    # saved as 'checked'      
     checked: select input[type="checkbox"] | get prop checked
 ```
 
@@ -575,9 +573,14 @@ You describe the content you wish to scrape using `select` and `get` keywords.
 select '.post-title a' {0,}
 ```
 
+Property | Description | Type | Default | Example
+---------|:-----------:|:----:|-------------- :|--------------
+**`CSS selector`**    | A CSS selector. | `string` | `undefined` | `div.my-class a`
+`quantifier`    | Slicing & indexing quantifier to pick amongst matches. | `string` | `[0]` | `{0,4}[2]`
+
 The `select` keyword accepts as input a CSS selector (e.g. `.body p:first-child`).
 
-The `select` keyword accepts an optional quantifier. This quantifier is used to select single or multiple CSS selector matches, and to pick specific indexes from the list. For example, `select div {0:2}[1]` selects the first two matches (`{0:2}`), and picks the second (`[1]`) - returning a single element.
+By default, the first matching element is selected. To select multiple or the N-th element, supply a third argument. This 'quantifier' argument is used to select single or multiple CSS selector matches, and to pick specific indexes from the list. For example, `select div {0:2}[1]` selects the first two matches (`{0:2}`), and picks the second (`[1]`) - returning a single element. Read [this](https://github.com/gajus/surgeon#quantifier-expression) for more details on the quantifier expression.
 
 #### `get`
 
@@ -588,6 +591,11 @@ get html
 get text
 ```
 
+Property | Description | Type | Default | Example
+---------|:-----------:|:----:|-------------- :|--------------
+**`content type`**    | Content to extract. | `string` | `undefined` | `text`, `html`, `prop`, `attr`
+`content name`    | Name of property or attribute to extract. | `string` | `undefined` | `src`
+
 The `get` keyword accepts as input one of `text`, `html`, `prop`, and `attr` for extracting text, raw HTML content, DOM properties, and HTML attributes respectively.
 
 The `get` keyword accepts a name argument in the case of `prop` and `attr`, which specifies the name of the property (e.g. `checked`) or attribute (e.g. `src`) to get.
@@ -596,18 +604,16 @@ The `get` keyword accepts a name argument in the case of `prop` and `attr`, whic
 
 ```yaml
 - scrape:
-    # saved as 'articles'
     articles:
       - select article {0,}
-      - body: select .body | get html # saved as 'articles[*].body'
+      - body: select .body | get html
         imageUrl: select img | get attr src
         summary: select .body p:first-child | get text
         title: select .title | get text
-    # saved as 'checked'
     checked: select input[type="checkbox"] | get prop checked
 ```
 
-> The above WAML would produce the following data (assuming that the CSS selectors and content is valid):
+> The above WAML will produce the following structured data:
 
 ```js
 {
@@ -631,35 +637,51 @@ The `get` keyword accepts a name argument in the case of `prop` and `attr`, whic
 
 #### Nested Data
 
-Subroutines can be nested: HTML elements from a previous level is passed as arguments to the next.
+Subroutines can be nested: HTML elements from a previous level is passed as arguments to the next level. Take a look at the following example:
 
 ```yaml
-articles:
-  - select article {0,} # Equivalent to document.querySelectAll('article')
-  - body: select .body | get html
-    imageUrl: select img | get attr src
-    summary: select .body p:first-child | get text
-    title: select .title | get text
+- select article
+- body: select .body | get html
+  imageUrl: select img | get attr src
+  summary: select .body p:first-child | get text
+  title: select .title | get text
 ```
 
-In the example above:
+Let's walk through these steps:
 
-- The `select` line returns a list of one or more HTML elements with the selector `article`.
-- In the next line, we name and extract `body`, `imageUrl`, `summary`, and `title` by `select`-ing with `document.querySelectAll('article')` as input. For example, `body` will contain `document.querySelectAll('article')[0].querySelector('.body').innerHTML`.
+- The `select` line returns a list of one or more HTML elements with the selector `article`. This is equivalent to `document.querySelectAll('article')`.
+- In the next line, we name and extract `body`, `imageUrl`, `summary`, and `title` with the `select`ion in the first line as input. 
+
+> In this example, `body` is equivalent to:
+
+```js
+document.querySelector('article').querySelector('.body').innerHTML
+```
+
+> `imageUrl` is equivalent to:
+
+```js
+document.querySelector('article').querySelector('img').getAttribute('src')
+```
+
 
 #### The Pipe Operator
 
-You can use the `|` pipe operator to simplify the following expression:
+You can use the `|` pipe operator to simplify a list of expressions:
 
 ```yaml
+# Before
 - body:
   - select .body
   - get html
 ```
 
+> The two examples here are equivalent.
+
 Into the following one-liner:
 
 ```yaml
+# After
 - body: select .body | get html
 ```
 
