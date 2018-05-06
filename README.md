@@ -650,7 +650,7 @@ Subroutines can be nested: HTML elements from a previous level is passed as argu
 Let's walk through these steps:
 
 - The `select` line returns a list of one or more HTML elements with the selector `article`. This is equivalent to `document.querySelectAll('article')`.
-- In the next line, we name and extract `body`, `imageUrl`, `summary`, and `title` with the `select`ion in the first line as input. 
+- In the next line, we name and extract `body`, `imageUrl`, `summary`, and `title` with the `select`ion in the first line as input.
 
 > In this example, `body` is equivalent to:
 
@@ -683,6 +683,21 @@ Into the following one-liner:
 ```yaml
 # After
 - body: select .body | get html
+```
+
+### Assert
+
+The `Assert` Step allows you to perform runtime assertions with Javascript expressions. The results of the assertions are saved into the variable store.
+
+Property | Description | Type | Default
+---------|:-----------:|:----:|--------------
+**`expression`**    | Javascript expression. | `string` | `undefined`
+**`message`**    | Description of the assertion. | `string` | `undefined`
+
+```yaml
+- assert:
+    expression: ${pageTitle} === 'My Page Title'
+    message: Valid page title
 ```
 
 ### SetContext
@@ -741,14 +756,6 @@ Property | Description | Type | Default
 ## Flow Control
 
 WAML provides the following flow control abstractions:
-
-### assert
-
-The `assert` Step allows you to perform runtime assertions with Javascript expressions. WAML implementations SHOULD abort a WAML Flow with a failure reason if the assertion evaluates to `false`.
-
-```yaml
-- assert: ${isMobile} === false
-```
 
 ### if & unless
 

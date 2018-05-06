@@ -321,7 +321,15 @@
       "description": "Perform a runtime assertion. Aborts the flow if the supplied expression evaluates to false.",
       "type": "object",
       "properties": {
-        "assert": { "$ref": "#/definitions/Expression" },
+        "assert": {
+          "type": "object",
+          "properties": {
+            "expression": { "$ref": "#/definitions/Expression" },
+            "message": { "type": "string" }
+          },
+          "required": ["expression", "message"],
+          "additionalProperties": false
+        },
         "if": { "$ref": "#/definitions/Expression" },
         "unless": { "$ref": "#/definitions/Expression" }
       },
