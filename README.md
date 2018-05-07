@@ -696,7 +696,7 @@ Property | Description | Type | Default
 
 ```yaml
 - assert:
-    expression: ${pageTitle} === 'My Page Title'
+    expression: '${pageTitle}' === 'My Page Title'
     message: Valid page title
 ```
 

@@ -52,6 +52,9 @@ steps: # A sequence of user interactions
           summary: select .body p:first-child | get text
           title: select .title | get text
       checked: select input[type="checkbox"] | get prop checked
+  - assert:
+      expression: '${pageTitle}' === 'My Page Title'
+      message: Valid page title      
   - setContext:
       viewport:
         height: 400
