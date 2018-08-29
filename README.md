@@ -1,8 +1,6 @@
 
 # WAML
 
-![](https://i.imgur.com/ItWr0HO.png)
-
 Web Automation Markup Language.
 
 **Give WAML a try with the online [WAML editor](https://waml.io/editor).**
@@ -82,7 +80,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Terminology
 
-A WAML document represents a single *Flow*: a sequence of *Steps* in a specified browser *Context*. Each Step corresponds to a single user action such as clicking a button, typing into a form, and so on.
+A WAML document represents a single *Scenario*, a sequence of *Steps* in a specified browser *Context*. Each Step corresponds to a single user action such as clicking a button, typing into a form, and so on.
 
 A WAML document consists of many *Fields*.
 
@@ -95,7 +93,7 @@ waml: 0.1.0
 
 info:
   title: An example WAML document.
-  description: High-level summary of the user flow.
+  description: High-level summary of the scenario.
 
 variables:
   someValue: Hello world
@@ -162,10 +160,10 @@ The table below lists the 5 root-level fields of a WAML document.
 Field Name | Type | Description
 ---|:---:|---
 [waml](#1-waml) | `string` | **REQUIRED**. The string must be the semantic version number of the WAML Specification that the WAML document uses.
-[info](#2-info) | `InfoObject` | Provides metadata about the flow.
+[info](#2-info) | `InfoObject` | Provides metadata about the scenario.
 [variables](#3-variables) | `object` | Stores variables used in the `steps` field.
 [context](#4-context) | `ContextObject` | Defines the browser's context and emulation configuration.
-[steps](#5-steps) | `[]StepObject` | **REQUIRED**. A sequence of steps for the flow.
+[steps](#5-steps) | `[]StepObject` | **REQUIRED**. A sequence of steps for the scenario.
 
 All field names in the specification are **case sensitive**.
 
@@ -183,32 +181,32 @@ waml: 0.1.0
 
 ### 2. Info
 
-The Info field provides general information about the Flow.
+The Info field provides general information about the Scenario.
 
 The `info` field is optional.
 
 ```yaml
 info: # Metadata about the WAML document
   title: An example WAML document.
-  description: High-level summary of the user flow.
+  description: High-level summary of the user scenario.
 ```
 
 ##### Params
 
 Field Name | Type | Description
 ---|:---:|---
-title | `string` | The title of the flow.
-description | `string` | A short summary of the flow.
+title | `string` | The title of the scenario.
+description | `string` | A short summary of the scenario.
 
 ### 3. Variables
 
-The Variables field stores variables usable elsewhere in the Flow, such as in the `steps` field.
+The Variables field stores variables usable elsewhere in the Scenario, such as in the `steps` field.
 You can store any key-value pairs. Values must be a literal value (`string`, `number`, or `boolean`).
 
 The use of variables and the `variables` field is optional.
 
 ```yaml
-variables: # A mapping of variables to be defined in the flow context
+variables: # A mapping of variables to be defined in the scenario context
   searchTerm: Hello world
   isMobile: true
 ```
@@ -300,7 +298,7 @@ But you can also use the expanded version of `click` to specify a target from a 
 
 ## Variable Store
 
-The variable store is an ephemeral, mutable key-value store for reading and storing values to be used elsewhere in the Flow. At the start of a Flow, the variable store can be initialized through the `variables` field:
+The variable store is an ephemeral, mutable key-value store for reading and storing values to be used elsewhere in the Scenario. At the start of a Scenario, the variable store can be initialized through the `variables` field:
 
 ```yaml
 variables:
@@ -330,7 +328,7 @@ steps:
     checked: select input[type="checkbox"] | get prop checked
 ```
 
-At the end of a WAML flow, the contents of the variable store should be returned and the variable store cleared.
+At the end of a WAML Scenario, the contents of the variable store should be returned and the variable store cleared.
 
 ## Step Library
 
@@ -351,7 +349,7 @@ Step Name | Description
 [back](#back)  | Move backward in the browser history.
 [forward](#forward)  | Move forward in the browser history.
 [scrape](#scrape)  | Scrape the HTML document for specified elements and attributes.
-[assert](#assert)  | Evaluates a runtime assertion. Aborts the flow if `false`.
+[assert](#assert)  | Evaluates a runtime assertion. Aborts the scenario if `false`.
 [setContext](#setcontext) | Modify browser context / emulation settings.
 [snap](#snap)  | Take a screenshot of the page.
 

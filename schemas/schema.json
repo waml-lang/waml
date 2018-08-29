@@ -12,16 +12,16 @@
       "enum": ["0.1.0"]
     },
     "info": {
-      "description": "General information about the Flow.",
+      "description": "General information about the Scenario.",
       "type": "object",
       "properties": {
-        "title": { "description": "The title for the Flow.", "type": "string" },
-        "description": { "description": "A short summary of the Flow.", "type": "string" }
+        "title": { "description": "The title for the Scenario.", "type": "string" },
+        "description": { "description": "A short summary of the Scenario.", "type": "string" }
       },
       "additionalProperties": false
     },
     "variables": {
-      "description": "Stores variables in the variable store, to be used elsewhere in the Flow.",
+      "description": "Stores variables in the variable store, to be used elsewhere in the Scenario.",
       "type": "object",
       "additionalProperties": { "type": ["string", "number", "boolean"] }
     },
@@ -29,7 +29,7 @@
       "$ref": "#/definitions/Context"
     },
     "steps": {
-      "description": "A sequence of one or more steps (a sequence of web automation steps is defined as a 'Flow'.)",
+      "description": "A sequence of one or more steps (a sequence of web automation steps is defined as a 'Scenario'.)",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -318,7 +318,7 @@
       "additionalProperties": false
     },
     "AssertStep": {
-      "description": "Perform a runtime assertion. Aborts the flow if the supplied expression evaluates to false.",
+      "description": "Perform a runtime assertion. Aborts the Scenario if the supplied expression evaluates to false.",
       "type": "object",
       "properties": {
         "assert": {
