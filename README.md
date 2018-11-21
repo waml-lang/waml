@@ -51,7 +51,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ## Table of contents
 
 * [Terminology](#terminology)
-* [Full Example](#full-example)
+* [Full Example](#full-kitchen-sink-example)
 * [Fields](#fields)
   * [waml](#1-waml)
   * [Info](#2-info)
@@ -694,7 +694,7 @@ Property | Description | Type | Default
 
 ```yaml
 - assert:
-    expression: '${pageTitle}' === 'My Page Title'
+    expression: "'${pageTitle}' === 'My Page Title'"
     message: Valid page title
 ```
 
